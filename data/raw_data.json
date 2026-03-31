@@ -1,0 +1,268 @@
+{
+    "kind": "youtube#playlistItemListResponse",
+    "etag": "OZdFXKt1DbrWdNZQfZtGl0eUGdg",
+    "prevPageToken": "EAEaHlBUOkNESWlFRFV6TWtKQ01FSTBNakpHUWtNM1JVTQ",
+    "items": [
+        {
+            "kind": "youtube#playlistItem",
+            "etag": "Q1moPgAa28mQ9ibV6bzMHqgEPco",
+            "id": "UExWQmlTb3RiOEJZQUVjZzVxWUlzbndoMWJudUY3QUtGVS41MzJCQjBCNDIyRkJDN0VD",
+            "snippet": {
+                "publishedAt": "2022-03-12T22:30:50Z",
+                "channelId": "UCucZxbG9teyMvRYSx3MHgcA",
+                "title": "Bicycle Thieves - Slap (Our Mix)",
+                "description": "Buy the record : https://www.discogs.com/es/Bicycle-Thieves-Slap/release/80172\n\nAll uploads are made at a low bit rate(128kbps). \n\nNo copyrigth infrigement intended. Just sharing good music. \n\nProducers : contact me at resellanes97@gmail.com if you don't want your music online, and i'll remove the video.",
+                "thumbnails": {
+                    "default": {
+                        "url": "https://i.ytimg.com/vi/hRzhE-K1MrM/default.jpg",
+                        "width": 120,
+                        "height": 90
+                    },
+                    "medium": {
+                        "url": "https://i.ytimg.com/vi/hRzhE-K1MrM/mqdefault.jpg",
+                        "width": 320,
+                        "height": 180
+                    },
+                    "high": {
+                        "url": "https://i.ytimg.com/vi/hRzhE-K1MrM/hqdefault.jpg",
+                        "width": 480,
+                        "height": 360
+                    },
+                    "standard": {
+                        "url": "https://i.ytimg.com/vi/hRzhE-K1MrM/sddefault.jpg",
+                        "width": 640,
+                        "height": 480
+                    }
+                },
+                "channelTitle": "La Petite Boite",
+                "playlistId": "PLVBiSotb8BYAEcg5qYIsnwh1bnuF7AKFU",
+                "position": 50,
+                "resourceId": {
+                    "kind": "youtube#video",
+                    "videoId": "hRzhE-K1MrM"
+                },
+                "videoOwnerChannelTitle": "Rafael Schneider",
+                "videoOwnerChannelId": "UCeC6KKpes4Y2m49yD_Q_kJQ"
+            }
+        },
+        {
+            "kind": "youtube#playlistItem",
+            "etag": "WJVmBEi2ng-uGW6Y6PTN2q5Je6c",
+            "id": "UExWQmlTb3RiOEJZQUVjZzVxWUlzbndoMWJudUY3QUtGVS4xMkVGQjNCMUM1N0RFNEUx",
+            "snippet": {
+                "publishedAt": "2022-03-12T13:25:13Z",
+                "channelId": "UCucZxbG9teyMvRYSx3MHgcA",
+                "title": "The 7th Voyage - Sideways (East)",
+                "description": "Buy the record : https://www.discogs.com/es/The-7th-Voyage-The-4-Point-EP/release/185386\n\nAll uploads are made at a low bit rate(128kbps).\n\nNo copyrigth infrigement intended. Just sharing good music.\n\nProducers : contact me at resellanes97@gmail.com if you don't want your music online, and i'll remove the video.",
+                "thumbnails": {
+                    "default": {
+                        "url": "https://i.ytimg.com/vi/SGDj9F3D1U0/default.jpg",
+                        "width": 120,
+                        "height": 90
+                    },
+                    "medium": {
+                        "url": "https://i.ytimg.com/vi/SGDj9F3D1U0/mqdefault.jpg",
+                        "width": 320,
+                        "height": 180
+                    },
+                    "high": {
+                        "url": "https://i.ytimg.com/vi/SGDj9F3D1U0/hqdefault.jpg",
+                        "width": 480,
+                        "height": 360
+                    },
+                    "standard": {
+                        "url": "https://i.ytimg.com/vi/SGDj9F3D1U0/sddefault.jpg",
+                        "width": 640,
+                        "height": 480
+                    }
+                },
+                "channelTitle": "La Petite Boite",
+                "playlistId": "PLVBiSotb8BYAEcg5qYIsnwh1bnuF7AKFU",
+                "position": 51,
+                "resourceId": {
+                    "kind": "youtube#video",
+                    "videoId": "SGDj9F3D1U0"
+                },
+                "videoOwnerChannelTitle": "Rafael Schneider",
+                "videoOwnerChannelId": "UCeC6KKpes4Y2m49yD_Q_kJQ"
+            }
+        },
+        {
+            "kind": "youtube#playlistItem",
+            "etag": "EGytsjCKwbrX-ts6k3KrGtqxcCc",
+            "id": "UExWQmlTb3RiOEJZQUVjZzVxWUlzbndoMWJudUY3QUtGVS4wOTA3OTZBNzVEMTUzOTMy",
+            "snippet": {
+                "publishedAt": "2022-03-11T22:28:56Z",
+                "channelId": "UCucZxbG9teyMvRYSx3MHgcA",
+                "title": "Bok.p - Alien Subversion [SAVOR019]",
+                "description": "Buy the record : https://www.discogs.com/Bokp-Tade-Kop-Split-Series-001/release/16066776\n\nAll uploads are made at a low bit rate(128kbps). \n\nNo copyrigth infrigement intended. Just sharing good music. \n\nProducers : contact me at resellanes97@gmail.com if you don't want your music online, and i'll remove the video.",
+                "thumbnails": {
+                    "default": {
+                        "url": "https://i.ytimg.com/vi/i2GA8imEDf0/default.jpg",
+                        "width": 120,
+                        "height": 90
+                    },
+                    "medium": {
+                        "url": "https://i.ytimg.com/vi/i2GA8imEDf0/mqdefault.jpg",
+                        "width": 320,
+                        "height": 180
+                    },
+                    "high": {
+                        "url": "https://i.ytimg.com/vi/i2GA8imEDf0/hqdefault.jpg",
+                        "width": 480,
+                        "height": 360
+                    },
+                    "standard": {
+                        "url": "https://i.ytimg.com/vi/i2GA8imEDf0/sddefault.jpg",
+                        "width": 640,
+                        "height": 480
+                    }
+                },
+                "channelTitle": "La Petite Boite",
+                "playlistId": "PLVBiSotb8BYAEcg5qYIsnwh1bnuF7AKFU",
+                "position": 52,
+                "resourceId": {
+                    "kind": "youtube#video",
+                    "videoId": "i2GA8imEDf0"
+                },
+                "videoOwnerChannelTitle": "Rafael Schneider",
+                "videoOwnerChannelId": "UCeC6KKpes4Y2m49yD_Q_kJQ"
+            }
+        },
+        {
+            "kind": "youtube#playlistItem",
+            "etag": "uUtL5Pg2L_Z5UabbbWN5WRIKz6s",
+            "id": "UExWQmlTb3RiOEJZQUVjZzVxWUlzbndoMWJudUY3QUtGVS41MjE1MkI0OTQ2QzJGNzNG",
+            "snippet": {
+                "publishedAt": "2022-03-11T21:01:50Z",
+                "channelId": "UCucZxbG9teyMvRYSx3MHgcA",
+                "title": "ADSR - Pleasure Centre",
+                "description": "Buy the record : https://www.discogs.com/es/ADSR-Suboceana/release/194927\n\nAll uploads are made at a low bit rate(128kbps). \n\nNo copyrigth infrigement intended. Just sharing good music. \n\nProducers : contact me at resellanes97@gmail.com if you don't want your music online, and i'll remove the video.",
+                "thumbnails": {
+                    "default": {
+                        "url": "https://i.ytimg.com/vi/t1ests-rR1U/default.jpg",
+                        "width": 120,
+                        "height": 90
+                    },
+                    "medium": {
+                        "url": "https://i.ytimg.com/vi/t1ests-rR1U/mqdefault.jpg",
+                        "width": 320,
+                        "height": 180
+                    },
+                    "high": {
+                        "url": "https://i.ytimg.com/vi/t1ests-rR1U/hqdefault.jpg",
+                        "width": 480,
+                        "height": 360
+                    },
+                    "standard": {
+                        "url": "https://i.ytimg.com/vi/t1ests-rR1U/sddefault.jpg",
+                        "width": 640,
+                        "height": 480
+                    },
+                    "maxres": {
+                        "url": "https://i.ytimg.com/vi/t1ests-rR1U/maxresdefault.jpg",
+                        "width": 1280,
+                        "height": 720
+                    }
+                },
+                "channelTitle": "La Petite Boite",
+                "playlistId": "PLVBiSotb8BYAEcg5qYIsnwh1bnuF7AKFU",
+                "position": 53,
+                "resourceId": {
+                    "kind": "youtube#video",
+                    "videoId": "t1ests-rR1U"
+                },
+                "videoOwnerChannelTitle": "Rafael Schneider",
+                "videoOwnerChannelId": "UCeC6KKpes4Y2m49yD_Q_kJQ"
+            }
+        },
+        {
+            "kind": "youtube#playlistItem",
+            "etag": "FVKI_aMDudsTYFAc8y425s-0Y1I",
+            "id": "UExWQmlTb3RiOEJZQUVjZzVxWUlzbndoMWJudUY3QUtGVS4wMTcyMDhGQUE4NTIzM0Y5",
+            "snippet": {
+                "publishedAt": "2022-03-11T16:20:58Z",
+                "channelId": "UCucZxbG9teyMvRYSx3MHgcA",
+                "title": "Ride The Spiral - Lost Again",
+                "description": "Buy the digital release : https://tasteslikeacid.bandcamp.com/album/rare-acids-vol-1\n\nAll uploads are made at a low bit rate(128kbps). \n\nNo copyrigth infrigement intended. Just sharing good music. \n\nProducers : contact me at resellanes97@gmail.com if you don't want your music online, and i'll remove the video.",
+                "thumbnails": {
+                    "default": {
+                        "url": "https://i.ytimg.com/vi/OaDeMYaxnK4/default.jpg",
+                        "width": 120,
+                        "height": 90
+                    },
+                    "medium": {
+                        "url": "https://i.ytimg.com/vi/OaDeMYaxnK4/mqdefault.jpg",
+                        "width": 320,
+                        "height": 180
+                    },
+                    "high": {
+                        "url": "https://i.ytimg.com/vi/OaDeMYaxnK4/hqdefault.jpg",
+                        "width": 480,
+                        "height": 360
+                    },
+                    "standard": {
+                        "url": "https://i.ytimg.com/vi/OaDeMYaxnK4/sddefault.jpg",
+                        "width": 640,
+                        "height": 480
+                    }
+                },
+                "channelTitle": "La Petite Boite",
+                "playlistId": "PLVBiSotb8BYAEcg5qYIsnwh1bnuF7AKFU",
+                "position": 54,
+                "resourceId": {
+                    "kind": "youtube#video",
+                    "videoId": "OaDeMYaxnK4"
+                },
+                "videoOwnerChannelTitle": "Rafael Schneider",
+                "videoOwnerChannelId": "UCeC6KKpes4Y2m49yD_Q_kJQ"
+            }
+        },
+        {
+            "kind": "youtube#playlistItem",
+            "etag": "GlFitYlbgwzCZ2jtgDW2zan6j_o",
+            "id": "UExWQmlTb3RiOEJZQUVjZzVxWUlzbndoMWJudUY3QUtGVS4yODlGNEE0NkRGMEEzMEQy",
+            "snippet": {
+                "publishedAt": "2022-03-11T16:15:22Z",
+                "channelId": "UCucZxbG9teyMvRYSx3MHgcA",
+                "title": "Protectorate Collective - Sanse",
+                "description": "Buy the record : https://www.discogs.com/es/Protectorate-Collective-The-Sea-Sheriff-EP/release/15940872\n\nAll uploads are made at a low bit rate(128kbps). \n\nNo copyrigth infrigement intended. Just sharing good music. \n\nProducers : contact me at resellanes97@gmail.com if you don't want your music online, and i'll remove the video.",
+                "thumbnails": {
+                    "default": {
+                        "url": "https://i.ytimg.com/vi/yhEsndZoQ50/default.jpg",
+                        "width": 120,
+                        "height": 90
+                    },
+                    "medium": {
+                        "url": "https://i.ytimg.com/vi/yhEsndZoQ50/mqdefault.jpg",
+                        "width": 320,
+                        "height": 180
+                    },
+                    "high": {
+                        "url": "https://i.ytimg.com/vi/yhEsndZoQ50/hqdefault.jpg",
+                        "width": 480,
+                        "height": 360
+                    },
+                    "standard": {
+                        "url": "https://i.ytimg.com/vi/yhEsndZoQ50/sddefault.jpg",
+                        "width": 640,
+                        "height": 480
+                    }
+                },
+                "channelTitle": "La Petite Boite",
+                "playlistId": "PLVBiSotb8BYAEcg5qYIsnwh1bnuF7AKFU",
+                "position": 55,
+                "resourceId": {
+                    "kind": "youtube#video",
+                    "videoId": "yhEsndZoQ50"
+                },
+                "videoOwnerChannelTitle": "Rafael Schneider",
+                "videoOwnerChannelId": "UCeC6KKpes4Y2m49yD_Q_kJQ"
+            }
+        }
+    ],
+    "pageInfo": {
+        "totalResults": 56,
+        "resultsPerPage": 50
+    }
+}

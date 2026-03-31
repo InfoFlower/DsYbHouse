@@ -1,0 +1,16 @@
+name, path, type
+kind, kind,TEXT
+etag, etag,TEXT
+id, id,TEXT
+publishedAt, snippet.publishedAt,TEXT
+channelId, snippet.channelId,TEXT
+title, snippet.title,TEXT
+description, snippet.description,TEXT
+url, snippet.thumbnails.standard.url,TEXT
+channelTitle, snippet.channelTitle,TEXT
+playlistId, snippet.playlistId,TEXT
+position, snippet.position,TEXT
+kind, snippet.resourceId.kind,TEXT
+videoId, snippet.resourceId.videoId,TEXT
+videoOwnerChannelTitle, snippet.videoOwnerChannelTitle,TEXT
+videoOwnerChannelId, snippet.videoOwnerChannelId,TEXT

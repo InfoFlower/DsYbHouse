@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Saved Videos - Housify</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <img src="../logo.svg" alt="Housify Logo" class="logo">
+            
+        </div>
+        <h1>Saved Videos</h1>
+        <div class="header-controls">
+            <button id="view-toggle" class="view-toggle-btn" title="Toggle View">
+                <div class="icon-squares">
+                    <div class="square"></div>
+                    <div class="square"></div>
+                    <div class="square"></div>
+                    <div class="square"></div>
+                </div>
+            </button>
+            <a href="../index/page.html" class="back-btn">← Back to Home</a>
+        </div>
+    </header>
+    <nav class="top-menu" aria-label="Main navigation">
+        <ul>
+            <li><a href="../index/page.html">Home</a></li>
+            <li><a href="../retreive_videos/page.html">Retrieve Videos</a></li>
+            <li><a href="page.html">Saved Videos</a></li>
+        </ul>
+    </nav>
+    <main class="panel">
+        <div class="filter-section">
+            <h2>Filters</h2>
+            <div class="filters">
+                <div class="filter-group">
+                    <label for="title-filter">Title</label>
+                    <select id="title-filter" multiple>
+                        <option value="" disabled selected>Select titles...</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="channel-filter">Channel</label>
+                    <select id="channel-filter" multiple>
+                        <option value="" disabled selected>Select channels...</option>
+                    </select>
+                </div>
+                <button id="reset-btn" class="reset-btn">Reset Filters</button>
+            </div>
+        </div>
+        <div id="results"></div>
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>
