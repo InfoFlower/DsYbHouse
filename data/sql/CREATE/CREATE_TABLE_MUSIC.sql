@@ -13,5 +13,6 @@ CREATE TABLE IF NOT EXISTS "music" (
 	"videoId"	TEXT,
 	"videoOwnerChannelTitle"	TEXT,
 	"videoOwnerChannelId"	TEXT,
+	"Discogged"	TEXT,
 	PRIMARY KEY("etag")
 )

@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS "music" (
+CREATE TABLE IF NOT EXISTS "discogs" (
 	"Z_tech_index" TEXT,
 	"country" TEXT,
 	"year" TEXT,
@@ -20,5 +20,6 @@ CREATE TABLE IF NOT EXISTS "music" (
 	"community" TEXT,
 	"format_quantity" TEXT,
 	"formats" TEXT,
+	"etag" TEXT,
 	PRIMARY KEY("id")
 );
