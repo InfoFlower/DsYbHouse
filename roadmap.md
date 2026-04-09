@@ -1,6 +1,7 @@
 # HOUSIFY — Roadmap
 
 > Application locale de gestion d'une vidéothèque musicale, croisant des données YouTube et Discogs.
+> → [Documentation technique](doc.md)
 
 ---
 
@@ -8,15 +9,19 @@
 
 ### Infrastructure & Backend
 - [x] **Serveur Flask** — point d'entrée unique (`flask_server.py`), configuration via `.env` (`WD`, `YTB_API`)
-- [x] **Couche API générique** (`API_Base.py`) — `BaseAPI` paramétrable (base URL + clé), gestion des requêtes HTTP
+- [x] **Couche API générique** (`API_Base.py`) — `BaseAPI` paramétrable (base URL + clé) ; option `no_key` pour les endpoints publics
 - [x] **Intégration YouTube Data API v3** (`API_Youtube.py`) — récupération par chaîne (`USER`) ou par playlist (`PLAYLIST`), pagination automatique, filtrage des vidéos privées/supprimées
-- [x] **Intégration Discogs API** (`API_Discogs.py`) — recherche de releases par titre, retry exponentiel en cas d'erreur
-- [x] **Base de données SQLite** (`data/housify.db`) — deux tables `music` et `discogs` avec schémas versionés dans `data/sql/CREATE/`
+- [x] **Intégration Discogs API — recherche** (`API_Discogs.py`) — recherche de releases par titre, retry exponentiel en cas d'erreur
+- [x] **Base de données SQLite** (`data/housify.db`) — tables `music` et `discogs` avec schémas versionnés dans `data/sql/CREATE/`
 - [x] **DB Manager** (`DB_Manager.py`) — CRUD complet : création de table à la volée, insert, delete conditionnel, update, read avec requête libre
+- [x] **Schéma évolutif sans migration** — `_ensure_columns()` ajoute automatiquement les colonnes manquantes via `ALTER TABLE`
+- [x] **Support structures colonne / ligne** — `type_of_struct` dans `write_db` / `insert_data` / `modifify_data` pour gérer les deux orientations de données
 - [x] **Normalisation des données YouTube** (`JSON_Youtube_Playlist.py`) — aplatissement de la réponse paginée → tuples insérables en base
-- [x] **Normalisation des données Discogs** (`JSON_Global_SingleLayer.py`) — normalisation générique de listes JSON mono-niveau
+- [x] **Normalisation des données Discogs mono-niveau** (`JSON_Discord_SingleLayer.py`) — remplace `JSON_Global_SingleLayer.py` ; supporte l'injection d'une clé étrangère (`added_key` / `added_value`) pour lier les releases Discogs à la table `music` via `etag`
 - [x] **Déduplication à l'ingestion** — suppression des anciens enregistrements sur un champ clé avant ré-insertion (`delete_on`)
-- [x] **Scripts ETL SQL** — `CONSOLIDATE.sql` (jointure music × discogs), `EASY_EXECUTE.py` (exécution et export formaté en ASCII)
+- [x] **Suivi de l'enrichissement** — champ `Discogged` dans `music` marqué `'Y'` après consolidation ; reprise possible sur les titres non traités
+- [x] **Barre de progression** — `tqdm` intégré dans les boucles d'enrichissement (`consolidate_discoggs_data`, `import_discord_database`)
+- [x] **Scripts ETL SQL** — `CONSOLIDATE.sql` (jointure music × discogs), `EASY_EXECUTE.py` (exécution et export formaté ASCII)
 
 ### Frontend
 - [x] **Page d'accueil** (`web/index/`) — navigation principale
@@ -28,41 +33,44 @@
 
 ## 🔄 En cours
 
-### Base décisionnelle de consolidation Music × Discogs
-- Script SQL `CONSOLIDATE.sql` existant (jointure `title` entre les deux tables), mais la liaison n'est pas encore formalisée en clé étrangère ni exposée en API
-- Le champ `Discogged` dans la table `music` indique si un titre a été enrichi (`'Y'`) — logique de marquage implémentée dans `Z_methods.py`
-- L'enrichissement se fait titre par titre avec un délai de 1 s (rate limiting manuel) ; pas encore de reprise sur erreur ni de bilan d'exécution
-- Route `/api_dev/consolidate_discogs_data/send_current_db/` expose la table `discogs` brute, mais aucune vue consolidée n'est encore exposée
+### Base décisionnelle Discogs multi-niveaux
+- **`JSON_Global_Multilayer`** (nouveau) : parcourt récursivement le JSON complet d'une release Discogs (`/releases/<id>`) et le décompose en un graphe de tables relationnelles (`discogs_main`, + tables enfants pour tracklist, formats, labels…)
+- **`DB_JsonHandler`** (nouveau) : persist ce graphe de tables — crée dynamiquement les tables et insère en mode colonne
+- **`API_Discogs.get_all_data(release_id)`** (nouveau) : appel sans clé vers l'endpoint public `/releases/<id>`
+- **`Z_methods.import_discord_database()`** (nouveau) : orchestre le pipeline complet — lit les ids de `discogs`, appelle `get_all_data`, normalise via `JSON_Global_Multilayer`, insère via `DB_JsonHandler` — **en cours de stabilisation** (gestion des erreurs partielles, reprise)
+- La route Flask de consolidation Discogs (`/api_dev/consolidate_discogs_data/<max_results>/…`) est **temporairement commentée** le temps de migrer vers le nouveau pipeline
 
 ### Ordonnanceur de tâches (`AUTOMATE/`)
 - Classe `task` fonctionnelle : threading, suivi statut (`PENDING / RUNNING / COMPLETED / ERROR`), mesure CPU & mémoire via `psutil`
-- Classe `scheduler` initialisée (file ordonnée, gestion de dépendances, concurrence max configurable) — méthode `run()` non implémentée
+- Classe `scheduler` : file ordonnée avec dépendances et concurrence max configurable — méthode `run()` non encore implémentée
 - `AUTO_Head.py` référence un `RequestHandler` dans `AUTOMATE/TASKS` qui n'existe pas encore
-- Les fichiers `routes.csv` et `schedule.csv` sont présents mais non exploités
+- `routes.csv` et `schedule.csv` présents mais non exploités
 
 ---
 
 ## 🗓️ Réalisations futures
 
 ### Données & enrichissement
-- [ ] **Liaison formelle Music × Discogs** — créer une table de jointure ou une vue SQL `music_enriched` exposant les métadonnées Discogs consolidées (genre, style, année, pays) sur chaque vidéo
-- [ ] **Alimentation automatique de la wishlist Discogs** — détecter les titres présents dans `music` mais absents de la collection Discogs et les pousser automatiquement via l'API Discogs Write
-- [ ] **Enrichissement complet de la base** — lancer l'ordonnanceur pour enrichir tous les titres en arrière-plan, avec bilan (nb enrichis / échecs / déjà traités)
+- [ ] **Stabiliser `import_discord_database`** — reprise sur erreur, logging des ids en échec, bilan d'exécution
+- [ ] **Réexposer la consolidation Discogs en API** — rétablir la route Flask une fois le nouveau pipeline stable
+- [ ] **Vue consolidée Music × Discogs** — vue SQL ou table `music_enriched` exposant genre, style, année, pays sur chaque vidéo
+- [ ] **Alimentation automatique de la wishlist Discogs** — détecter les titres dans `music` absents de la collection et les pousser via l'API Discogs Write
+- [ ] **Enrichissement complet en tâche de fond** — déclencher via l'ordonnanceur avec bilan (enrichis / échecs / déjà traités)
 
 ### Lecture & expérience utilisateur
-- [ ] **Lecture des musiques via le site** — intégrer un lecteur YouTube embarqué (iframe ou `youtube-iframe-api`) directement dans les pages `view_videos` et `view_videos` pour écouter sans quitter l'application
-- [ ] **Page de notation des musiques** — interface permettant d'attribuer une note (étoiles ou score) à chaque vidéo enregistrée en base, avec persistance dans la table `music`
-- [ ] **Filtres & recherche dans la vidéothèque** — filtrer par genre Discogs, chaîne, année, note, statut d'enrichissement
+- [ ] **Lecture des musiques via le site** — lecteur YouTube embarqué (`youtube-iframe-api`) dans `view_videos`
+- [ ] **Page de notation des musiques** — note (étoiles / score) par vidéo, persistée en base
+- [ ] **Filtres & recherche dans la vidéothèque** — par genre Discogs, chaîne, année, note, statut d'enrichissement
 
 ### Utilisateurs & gestion
-- [ ] **Système d'utilisateurs** — authentification légère (session Flask) pour permettre à plusieurs personnes de noter indépendamment
-- [ ] **Historique des notations par utilisateur** — table `ratings` liée à `music` et aux users
+- [ ] **Système d'utilisateurs** — authentification légère (session Flask) pour notation multi-utilisateurs
+- [ ] **Historique des notations** — table `ratings` liée à `music` et aux users
 
 ### Automatisation
-- [ ] **Finaliser l'ordonnanceur** — implémenter `scheduler.run()` : boucle de dispatch des tâches, gestion des dépendances, timeout, état persisté
-- [ ] **`RequestHandler`** dans `AUTOMATE/TASKS` — gestionnaire de requêtes HTTP planifiables (rafraîchissement automatique des playlists, consolidation Discogs périodique)
-- [ ] **Interface de gestion des tâches planifiées** — page web permettant de voir et déclencher les tâches de l'ordonnanceur
+- [ ] **Finaliser `scheduler.run()`** — boucle de dispatch, gestion des dépendances, timeout, état persisté
+- [ ] **`RequestHandler`** dans `AUTOMATE/TASKS` — rafraîchissement planifié des playlists et consolidations périodiques
+- [ ] **Interface web de l'ordonnanceur** — page de suivi et déclenchement des tâches
 
 ### Infrastructure
-- [ ] **Containerisation Docker** — `Dockerfile` + `docker-compose` pour simplifier le déploiement sur le homelab
-- [ ] **Tests automatisés** — couverture des modules `DB_Manager`, normalizers et API wrappers
+- [ ] **Containerisation Docker** — `Dockerfile` + `docker-compose` pour le homelab
+- [ ] **Tests automatisés** — couverture de `DB_Manager`, des normalizers, des wrappers API
