@@ -1,4 +1,6 @@
 import sys
+sys.stdout.reconfigure(encoding='utf-8')  # Ensure UTF-8 encoding for console output
+from JSON_Global_Multilayer import JSON_Global_Multilayer
 
 sys.path.append('src')
 
@@ -9,6 +11,13 @@ api_key = os.environ.get("YTB_API")
 BASE_DIR = os.getenv('WD')
 
 from API_Youtube import High_level_API
+import time
+from API_Discogs import Mid_level_API
+from JSON_Discord_SingleLayer import SingleLayerDataNormalizer
+from DB_JsonHandler import DB_JsonHandler
+from DB_Manager import db_manager
+from tqdm import tqdm
+
 
 def request_videos_from_X(search, type, max_results = 50, max_output_length=None): 
     api = High_level_API(api_key)
@@ -16,10 +25,6 @@ def request_videos_from_X(search, type, max_results = 50, max_output_length=None
     return res
 
 def consolidate_discoggs_data(max_results=None, overwrite_db=False):
-    import time
-    from API_Discogs import Mid_level_API
-    from JSON_Global_SingleLayer import SingleLayerDataNormalizer
-    from DB_Manager import db_manager
     data_normalizer = SingleLayerDataNormalizer()
     conn = db_manager()
     api_key = "DEVELOPER_KEY"
@@ -27,8 +32,8 @@ def consolidate_discoggs_data(max_results=None, overwrite_db=False):
     if overwrite_db: condition = '1=1'
     else: condition = "Discogged IS NULL OR Discogged != 'Y'"
     header, data = conn.read_db(query=f"select title, etag from music where {condition};")
-    if not max_results : max_results = len(data)
-    for i in data[:max_results]:
+    if max_results is None: max_results = len(data)
+    for i in tqdm(data[:max_results], desc="Processing"):
         time.sleep(1)
         releases = api.get_release_id(q=i[0])
         data_normalizer(releases, added_key='etag', added_value=i[1])
@@ -44,5 +49,27 @@ def consolidate_discoggs_data(max_results=None, overwrite_db=False):
     
     return data_normalizer.get_header_and_data()
 
-if __name__ == "__main__":
-    consolidate_discoggs_data(max_results=10, overwrite_db=True)
+def import_discord_database():
+    api = Mid_level_API(api_key)
+    conn = db_manager()
+    json_conn = DB_JsonHandler()
+    header, data = conn.read_db(query=f"select distinct id from discogs/* where id = 10028704*/;")
+    serializer = JSON_Global_Multilayer( identifier='id')
+    first = True
+    for i in tqdm(data):
+        try :
+            res = api.get_all_data(i[0])
+        except Exception as e:
+            print(f"Error fetching data for id {i[0]}: {e}")
+            break
+        if res :
+            res = serializer.walker(res, table_name='discogs_main')
+            json_conn.create_table(res)
+            try :
+                json_conn.insert_data(res, key='id_main') 
+            except Exception as e:
+                print(f"Error inserting data for id {i[0]}: {e}")
+    
+
+if __name__ == '__main__':
+    import_discord_database()

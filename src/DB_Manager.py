@@ -1,7 +1,13 @@
+import numpy as np
+import pandas as pd
+
+
+
 import sqlite3
 import os
 import json
 from dotenv import load_dotenv
+from polars import first
 load_dotenv()
 BASE_DIR = os.getenv('WD')
 
@@ -17,22 +23,67 @@ class db_manager:
     def __init__(self, db_path = 'data/housify.db'):
         self.db_path = f"{BASE_DIR}/{db_path}"
 
+    def execute(self, sql_script):
+        conn = sqlite3.connect(self.db_path)
+        c = conn.cursor()
+        c.execute(sql_script)
+        conn.commit()
+        conn.close()
+
     def _prepare_value(self, value):
         if isinstance(value, (list, dict, tuple, set)):
             return json.dumps(value, ensure_ascii=False)
         return value
 
     def _prepare_rows(self, data):
+        print(f"Preparing rows for data: {data[:5]}...") 
         if data is None:
             return []
-        return [tuple(self._prepare_value(value) for value in row) for row in data]
+        if isinstance(data, (list, tuple)) and len(data) > 0 and isinstance(data[0], (list, tuple)):
+            return [tuple(self._prepare_value(value) for value in row) for row in data]
+        return [tuple(self._prepare_value(v) for v in data)]
+
+    def _ensure_columns(self, conn, table_name, header):
+        c = conn.cursor()
+        c.execute(f"PRAGMA table_info({table_name})")
+        existing_cols = {row[1] for row in c.fetchall()}
+        for col in header:
+            if col not in existing_cols:
+                c.execute(f'ALTER TABLE {table_name} ADD COLUMN "{col}" TEXT')
+        conn.commit()
         
-    def insert_data(self, header=[], data=None, table_name="music"):
+    def insert_data(self, header=[], data=None, table_name="music", type_of_struct='row'):
         conn = sqlite3.connect(self.db_path)
         c = conn.cursor()
-        placeholders = ', '.join(['?' for _ in header])
+        header_list = list(header)
+        print(f"modified: {data}")
+        try :
+            if type_of_struct == 'column' and isinstance(data[0], (list, tuple)) :
+                data = [[data[i][r] for i in range(len(header_list))]  for r in range(len(data[0]))]
+        except Exception as e:
+            modified_data = []
+            first = True
+            for i in data :
+                if first :
+                    mapped = len(i)
+                if len(i)<mapped :
+                    i = i + [None]*(mapped-len(i))
+                    modified_data.append(i)
+                elif len(i)>mapped :
+                    i = i[:mapped]
+                    modified_data.append(i)
+                else :
+                    modified_data.append(i)
+                first = False
+            data = [[modified_data[i][r] for i in range(len(header_list))]  for r in range(len(modified_data[0]))]
+            pd.DataFrame(data).to_csv('modified_data.csv', index=False, header=header_list)
+
         rows = self._prepare_rows(data)
-        c.executemany(f"INSERT INTO {table_name} VALUES ({placeholders})", rows)
+        self._ensure_columns(conn, table_name, header_list)
+        placeholders = ', '.join(['?' for _ in header_list])
+        cols = ', '.join(f'"{h}"' for h in header_list)
+        print(f'Inserting into {table_name} ({cols}) with {len(rows)} rows.')
+        c.executemany(f'INSERT INTO {table_name} ({cols}) VALUES ({placeholders})', rows)
         conn.commit()
         conn.close()
     
@@ -46,14 +97,17 @@ class db_manager:
         conn.commit()
         conn.close()
 
-    def write_db(self, header, data, table_name="music", delete_on = None):
-        self.create_table(table_name=table_name)
+    def write_db(self, header, data, table_name="music", delete_on = None, create=False, type_of_struct='row'):
+        print(f"Writing data to {table_name} with header {header} and delete_on {delete_on}...")
+        if create : self.create_table(table_name=table_name)
         if delete_on:
             self.modifify_data(type='delete', table_name=table_name
                              , on=delete_on
                              , data=data
-                             , header=header)
-        self.insert_data(header=header, data=data, table_name=table_name)
+                             , header=header
+                             , type_of_struct=type_of_struct)
+        print('insert_data called with header:', header)
+        self.insert_data(header=header, data=data, table_name=table_name, type_of_struct=type_of_struct)
 
     def read_db(self, table_name="music", query=None):
         conn = sqlite3.connect(self.db_path)
@@ -67,7 +121,10 @@ class db_manager:
         conn.close()
         return header, data
     
-    def modifify_data(self, type, table_name, on, data, header, update_values=None):
+    def modifify_data(self, type, table_name, on, data, header, update_values=None, type_of_struct='row'):
+        print(f"Modifying data in {table_name} with type {type} on columns {on}...")
+        if isinstance(on, str):
+            on = [on]
         nb = 0
         first = True
         condition = ""
@@ -76,18 +133,27 @@ class db_manager:
             if h in on:
                 if not first:
                     condition += " OR "
-                unique_values = list(set(str(row[i]) for row in data))
-                placeholders = ', '.join(['?' for _ in unique_values])
+                if type_of_struct == 'column':
+                    print(f"Data sample for column {i},{h}: {data[i]}")
+                    unique_values = data[i]
+                if type_of_struct == 'row':
+                    unique_values = list(set(row[i] for row in data))
+                    first = False
+                if unique_values not in condition_params:
+                    if isinstance(unique_values,list):
+                        condition_params.extend(unique_values)
+                    else:
+                        condition_params.append(unique_values)
+                placeholders = ', '.join(['?' for _ in condition_params])
                 condition += f"{h} IN ({placeholders})"
-                condition_params.extend(unique_values)
                 nb += 1
-                first = False
             if nb >= len(on):
                 break
         conn = sqlite3.connect(self.db_path)
         c = conn.cursor()
         if type == 'delete':
             sql = f"DELETE FROM {table_name} WHERE {condition}"
+            print(f"Executing SQL: {sql} with params {condition_params}")
             c.execute(sql, condition_params)
         elif type == 'update':
             set_clause = ', '.join([f"{k} = ?" for k in update_values.keys()])

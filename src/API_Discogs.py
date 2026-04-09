@@ -1,5 +1,3 @@
-from unittest import result
-
 from API_Base import BaseAPI
 import time
 
@@ -26,3 +24,16 @@ class Mid_level_API(BaseAPI):
             'type': 'release'
         }
         return wrapper(params)
+
+
+    def get_all_data(self, release_id, no_key=True):
+        memory_base_url = self.base_url
+        self.base_url = "https://api.discogs.com/releases"
+        try:
+            result = self._request(release_id, {}, no_key=no_key)
+            self.base_url = memory_base_url
+            return result
+        except Exception as e:
+            print(f"Failed to get all data for release ID {release_id} with error: {e}")
+            self.base_url = memory_base_url
+            return None

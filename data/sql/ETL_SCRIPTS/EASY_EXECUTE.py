@@ -1,22 +1,19 @@
 import sqlite3
-from tabulate import tabulate
 
-PATH = "C:/Users/lenovo/Desktop/HomeLab/HOUSIFY/data/housify.db"
+db_path = "data/housify.db"
+sql_file_path = r"data\sql\ETL_SCRIPTS\CONSOLIDATE.sql"
+conn = sqlite3.connect(db_path)
+cursor = conn.cursor()
 
+with open(sql_file_path, 'r', encoding='utf-8') as sql_file:
+    sql_script = sql_file.read()
 
-def format_query_result(data, header):
-    """Format SQLite query results as a fancy ASCII table."""
-    if not data:
-        return "No data to display"
-    return tabulate(data, headers=header, tablefmt="grid", stralign="center")
+    results = cursor.execute(sql_script).fetchall()
+    # Get column names from cursor description
+    headers = [description[0] for description in cursor.description]
+    with open('output.csv', 'w', encoding='utf-8') as output_file:
+        output_file.write('"'+'","'.join(headers) + '"\n')
+        for row in results:
+            output_file.write('"'+'","'.join(map(str, row)).replace(f'\n\r','/').replace(f'\r\n','/').replace(f'\n','/').replace(f'\r','/') + '"\n')
 
-with open('C:/Users/lenovo/Desktop/HomeLab/HOUSIFY/data/sql/ETL_SCRIPTS/CONSOLIDATE.sql', 'r') as f:
-    sql_script = f.read()
-conn = sqlite3.connect(PATH)
-c = conn.cursor()  
-c.execute(sql_script)
-data =c.fetchall()
 conn.commit()
-
-with open("output.txt", "w", encoding="utf-8") as f:
-    f.write(format_query_result(data, [desc[0] for desc in c.description]))

@@ -43,11 +43,13 @@ def see_database():
     header, data = db_conn.read_db(table_name='music')
     return {'status': 'success', 'header': header, 'videos': data}
 
-@app.route('/api_dev/consolidate_discogs_data/<int:max_results>/<overwrite_db>')
-def consolidate_discogs(max_results, overwrite_db):
-    data = consolidate_discoggs_data(max_results=max_results, overwrite_db=overwrite_db.lower() == 'true')
-    header, videos = data
-    return {'status': 'success', 'count': len(videos)}
+# @app.route('/api_dev/consolidate_discogs_data/<max_results>/<overwrite_db>')
+# def consolidate_discogs(max_results, overwrite_db):
+#     if max_results == 'None': max_results = None
+#     data = consolidate_discoggs_data(max_results=max_results, overwrite_db=overwrite_db.lower() == 'true')
+#     header, videos = data
+#     db_conn.write_db(header, videos, table_name='discogs', delete_on=['id'])
+#     return {'status': 'success', 'count': len(videos)}
 
 
 @app.route('/api_dev/consolidate_discogs_data/send_current_db/')

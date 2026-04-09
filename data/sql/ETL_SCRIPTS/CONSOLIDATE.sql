@@ -1,2 +1,3 @@
-select title, country, year, genre, style
-from discogs;
+SELECT *
+FROM discogs_main
+;
