@@ -1,13 +1,35 @@
-# HOUSIFY — Documentation synthétique
+# HOUSIFY — Documentation technique
 
 > Dernière mise à jour : avril 2026
-> → [Roadmap](roadmap.md)
-
-Application locale de gestion d'une vidéothèque musicale. Elle récupère les vidéos YouTube d'une chaîne ou d'une playlist, les stocke dans une base SQLite, et les enrichit avec des données Discogs.
+> → [README](readme.md) | [Roadmap](roadmap.md)
 
 ---
 
-## Stack
+## Architecture générale
+
+HOUSIFY est une application web locale (homelab) construite autour de trois axes :
+
+1. **Collecte** : récupération de vidéos depuis YouTube et de métadonnées depuis Discogs
+2. **Stockage** : base SQLite avec schéma évolutif (colonnes ajoutées dynamiquement)
+3. **Consultation** : interface web avec filtres, tri et vues grille/liste
+
+```
+┌─────────────────┐     ┌──────────────────┐     ┌─────────────┐
+│  YouTube API v3 │────▶│                  │────▶│  housify.db │
+└─────────────────┘     │  flask_server.py │     │   (SQLite)  │
+┌─────────────────┐     │   + Z_methods    │     └──────┬──────┘
+│   Discogs API   │────▶│                  │            │
+└─────────────────┘     └────────┬─────────┘            │
+                                 │                      │
+                        ┌────────▼─────────┐            │
+                        │   Frontend web   │◀───────────┘
+                        │  (HTML/CSS/JS)   │
+                        └──────────────────┘
+```
+
+---
+
+## Stack technique
 
 | Couche | Technologie |
 |---|---|
@@ -15,88 +37,99 @@ Application locale de gestion d'une vidéothèque musicale. Elle récupère les 
 | Base de données | SQLite (`data/housify.db`) |
 | APIs externes | YouTube Data API v3, Discogs API |
 | Frontend | HTML / CSS / JS vanilla |
+| Dépendances Python | `requests`, `tqdm`, `pandas`, `numpy`, `psutil`, `python-dotenv` |
 
 ---
 
-## Lancement
+## Point d'entrée : `flask_server.py`
 
-```bash
-# Créer un fichier .env à la racine :
-# WD=<chemin absolu du projet>
-# YTB_API=<clé API YouTube>
+Serveur Flask exposant les fichiers statiques et les endpoints API.
 
-python flask_server.py
-# → http://localhost:5000
-```
-
----
-
-## Routes Flask (`flask_server.py`)
+### Routes
 
 | Méthode | Route | Description |
 |---|---|---|
 | GET | `/` | Page d'accueil |
 | GET | `/web/<path>` | Fichiers statiques du frontend |
-| GET | `/api/get_videos/<search>/<type>/<need_db>` | Récupère les vidéos YouTube. `type` = `USER` ou `PLAYLIST`. Si `need_db=true`, écrit en base. |
+| GET | `/api/get_videos/<search>/<type>/<need_db>` | Récupère les vidéos YouTube. `type` = `USER` ou `PLAYLIST`. Si `need_db=true`, écrit en base |
 | GET | `/api/see_database/` | Retourne tout le contenu de la table `music` |
-| GET | `/api_dev/consolidate_discogs_data/<max_results>/<overwrite_db>` | Enrichit les titres de la table `music` via l'API Discogs |
-| GET | `/api_dev/consolidate_discogs_data/send_current_db/` | Retourne la table `discogs` |
+| GET | `/api/consolidated_data/send_musicdiscg/` | Retourne la vue consolidée `musicdisg` (music + discogs + rating) |
+
+### Configuration
+
+Via fichier `.env` à la racine :
+
+| Variable | Description |
+|---|---|
+| `WD` | Chemin absolu du projet |
+| `YTB_API` | Clé API YouTube Data v3 |
 
 ---
 
-## Structure du projet
+## Fichiers racine utilitaires
 
-```
-flask_server.py          # point d'entrée
-data/
-  housify.db             # base SQLite
-  sql/CREATE/            # scripts CREATE TABLE (music, discogs)
-  sql/ETL_SCRIPTS/       # scripts de suppression/transformation
-src/
-  API_Base.py            # classe BaseAPI (requests HTTP génériques)
-  API_Youtube.py         # Mid/High level API YouTube
-  API_Discogs.py         # Mid level API Discogs
-  DB_Manager.py          # CRUD SQLite (db_manager)
-  JSON_Youtube_Playlist.py   # Normalisation JSON → table playlist
-  JSON_Global_SingleLayer.py # Normalisation JSON → table à plat (Discogs)
-  JSON_Basic.py          # utilitaire chargement JSON
-  Z_methods.py           # fonctions haut niveau (request_videos_from_X, consolidate_discoggs_data)
-  AUTOMATE/
-    TASKS.py             # classe task (threading + suivi CPU/mémoire)
-    SCHEDULER.py         # classe scheduler (WIP)
-    routes.csv / schedule.csv
-web/
-  index/                 # page d'accueil
-  retreive_videos/       # formulaire de récupération
-  view_videos/           # visualisation des vidéos sauvegardées
-```
+| Fichier | Description |
+|---|---|
+| `test.py` | Script de test : exporte la vue `musicdisg` en JSON (`musicdisg.json`) |
+| `output.csv` | Export CSV de la requête de consolidation |
+| `modified_data.csv` | Export de débogage généré par `DB_Manager` lors de corrections de structure |
+| `musicdisg.json` | Snapshot JSON de la vue consolidée |
+| `log.txt` | Sortie de `Z_methods.py` |
 
 ---
 
-## Modules `src`
+## Documentation par dossier
 
-### `API_Base.py`
-Classe `BaseAPI` : effectue une requête GET authentifiée (`key` injectée dans les params). Le paramètre `no_key=False` permet de désactiver l'injection de clé pour les endpoints publics (ex. détail d'une release Discogs).
+| Dossier | Documentation | Description |
+|---|---|---|
+| `src/` | [src/_doc.md](src/_doc.md) | Code source Python : APIs, BDD, normalisation JSON, orchestration |
+| `data/` | [data/doc.md](data/doc.md) | Base de données, scripts SQL, schéma MPD |
+| `web/` | [web/doc.md](web/doc.md) | Interface web : pages, filtres, interactions API |
 
-### `API_Youtube.py`
-- `Mid_level_API` : accès bas niveau (channel ID, playlist ID, vidéos paginées)
-- `High_level_API.get_all_videos(search, type)` : point d'entrée principal ; accepte un username (`USER`) ou un ID de playlist (`PLAYLIST`)
+---
 
-### `API_Discogs.py`
-- `Mid_level_API.get_release_id(q)` : recherche un titre dans la base Discogs avec retry exponentiel
-- `Mid_level_API.get_all_data(release_id)` *(nouveau)* : récupère le JSON complet d'une release (`/releases/<id>`) sans clé API (`no_key=True`)
+## Flux de données principaux
 
-### `DB_Manager.py`
-- `db_manager(db_path)` : interface SQLite — dépendances ajoutées : `numpy`, `pandas`
-  - `execute(sql_script)` *(nouveau)* : exécution SQL libre
-  - `_ensure_columns(conn, table_name, header)` *(nouveau)* : ajoute dynamiquement les colonnes manquantes via `ALTER TABLE` (schéma évolutif sans migration)
-  - `write_db(header, data, table_name, delete_on, create, type_of_struct)` : `create` force la re-création de table ; `type_of_struct` (`'row'`/`'column'`) adapte la lecture des données
-  - `insert_data(..., type_of_struct)` : gère les structures en colonnes ou en lignes, avec correction automatique des longueurs incohérentes et export CSV de débogage
-  - `read_db(table_name, query)` : inchangé
-  - `modifify_data(type, ..., type_of_struct)` : supporte `type_of_struct='column'` pour la déduplication sur données column-oriented
+### 1. Import YouTube → base locale
 
-### `JSON_Youtube_Playlist.py`
-`PlaylistDataNormalizer` : aplatit la réponse paginée YouTube en dictionnaire de listes → `get_header_and_data()`.
+```
+Utilisateur (web/retreive_videos)
+  → GET /api/get_videos/<search>/<type>/true
+    → High_level_API.get_all_videos()
+      → pagination YouTube → PlaylistDataNormalizer
+        → db_manager.write_db(table='music', delete_on='playlistId')
+```
+
+### 2. Enrichissement Discogs (recherche)
+
+```
+Z_methods.consolidate_discoggs_data()
+  → Pour chaque titre dans music (où Discogged IS NULL) :
+    → Mid_level_API.get_release_id(titre)
+      → SingleLayerDataNormalizer (ajoute etag comme clé étrangère)
+    → Marque Discogged='Y' dans music
+  → Insère les résultats dans table discogs
+```
+
+### 3. Import détaillé Discogs (multi-tables)
+
+```
+Z_methods.import_discord_database()
+  → Pour chaque id dans discogs (absent de discogs_main) :
+    → Mid_level_API.get_all_data(id)
+      → JSON_Global_Multilayer.walker()
+        → DB_JsonHandler.create_table() + insert_data()
+          → Tables : discogs_main, artists, tracklist, rating, formats, labels…
+```
+
+### 4. Consultation consolidée
+
+```
+Utilisateur (web/view_musicdisg)
+  → GET /api/consolidated_data/send_musicdiscg/
+    → db_manager.read_db(table='musicdisg')
+      → Vue SQL : music ⟕ discogs ⟕ discogs_main ⟕ rating
+```
 
 ### `JSON_Discord_SingleLayer.py`
 `SingleLayerDataNormalizer` : aplatit la liste `results` d'une réponse JSON Discogs mono-niveau. Accepte désormais un paramètre `added_key` / `added_value` pour injecter une clé étrangère (ex. `etag`) dans chaque ligne et assurer la liaison avec la table `music`.
