@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Discogs - Housify</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <img src="../logo.svg" alt="Housify Logo" class="logo">
+        </div>
+        <h1>Music &amp; Discogs</h1>
+        <div class="header-controls">
+            <button id="view-toggle" class="view-toggle-btn" title="Toggle View">
+                <div class="icon-squares">
+                    <div class="square"></div>
+                    <div class="square"></div>
+                    <div class="square"></div>
+                    <div class="square"></div>
+                </div>
+            </button>
+            <a href="../index/page.html" class="back-btn">← Back to Home</a>
+        </div>
+    </header>
+    <nav class="top-menu" aria-label="Main navigation">
+        <ul>
+            <li><a href="../index/page.html">Home</a></li>
+            <li><a href="../retreive_videos/page.html">Retrieve Videos</a></li>
+            <li><a href="../view_videos/page.html">Saved Videos</a></li>
+            <li><a href="page.html" class="active">Music Discogs</a></li>
+        </ul>
+    </nav>
+    <main class="panel">
+        <div class="filter-section">
+            <h2>Filters</h2>
+            <div class="filters">
+                <div class="filter-group">
+                    <label for="channel-filter">Channel</label>
+                    <select id="channel-filter" multiple>
+                        <option value="" disabled selected>Select channels...</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="genre-filter">Genre</label>
+                    <select id="genre-filter" multiple>
+                        <option value="" disabled selected>Select genres...</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="year-filter">Year</label>
+                    <select id="year-filter" multiple>
+                        <option value="" disabled selected>Select years...</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="rating-filter">Rating</label>
+                    <select id="rating-filter" multiple>
+                        <option value="" disabled selected>Select ratings...</option>
+                        <option value="4.5">★ 4.5+</option>
+                        <option value="4.0">★ 4.0+</option>
+                        <option value="3.5">★ 3.5+</option>
+                        <option value="3.0">★ 3.0+</option>
+                        <option value="0">Unrated</option>
+                    </select>
+                </div>
+                <button id="reset-btn" class="reset-btn">Reset Filters</button>
+            </div>
+        </div>
+        <div class="sort-section">
+            <label for="sort-select">Sort by</label>
+            <select id="sort-select">
+                <option value="title-asc">Title A→Z</option>
+                <option value="title-desc">Title Z→A</option>
+                <option value="year-asc">Year ↑</option>
+                <option value="year-desc">Year ↓</option>
+                <option value="rating-desc">Rating ↓</option>
+                <option value="rating-asc">Rating ↑</option>
+                <option value="price-asc">Price ↑</option>
+                <option value="price-desc">Price ↓</option>
+            </select>
+        </div>
+        <div id="results"></div>
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>

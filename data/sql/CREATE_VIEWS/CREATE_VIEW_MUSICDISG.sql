@@ -1,3 +1,4 @@
+create or replace view musicdisg as
 SELECT distinct
         music.id AS music_id,
         music.title AS music_title,
@@ -12,6 +13,7 @@ SELECT distinct
         ds.country, 
         ds.year, 
         ds.label,
+        dm.id,
         dm.data_quality,
         dm.lowest_price,
         dm.num_for_sale,

@@ -1,8 +1,9 @@
 import sys
 sys.stdout.reconfigure(encoding='utf-8')  # Ensure UTF-8 encoding for console output
+sys.path.append('src')
 from JSON_Global_Multilayer import JSON_Global_Multilayer
 
-sys.path.append('src')
+
 
 import os
 from dotenv import load_dotenv

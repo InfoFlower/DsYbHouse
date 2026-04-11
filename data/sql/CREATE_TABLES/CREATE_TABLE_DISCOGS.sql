@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS "discogs" (
+CREATE TABLE "discogs" (
 	"Z_tech_index" TEXT,
 	"country" TEXT,
 	"year" TEXT,
@@ -21,5 +21,5 @@ CREATE TABLE IF NOT EXISTS "discogs" (
 	"format_quantity" TEXT,
 	"formats" TEXT,
 	"etag" TEXT,
-	PRIMARY KEY("id")
+	PRIMARY KEY("id","etag")
 );

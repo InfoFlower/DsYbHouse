@@ -3,7 +3,6 @@ from flask import send_from_directory
 
 from src.Z_methods import consolidate_discoggs_data, request_videos_from_X
 from src.DB_Manager import db_manager
-
 app = flask.Flask(__name__)
 
 import os
@@ -16,10 +15,9 @@ BASE_DIR = WD + '/web'
 
 db_conn = db_manager("data/housify.db")
 
-
 @app.route('/')
 def index():
-    return send_from_directory(BASE_DIR,'page.html')
+    return send_from_directory(BASE_DIR, 'index/page.html')
 
 @app.route('/web/<path:path>')
 def send_static(path):
@@ -43,18 +41,9 @@ def see_database():
     header, data = db_conn.read_db(table_name='music')
     return {'status': 'success', 'header': header, 'videos': data}
 
-# @app.route('/api_dev/consolidate_discogs_data/<max_results>/<overwrite_db>')
-# def consolidate_discogs(max_results, overwrite_db):
-#     if max_results == 'None': max_results = None
-#     data = consolidate_discoggs_data(max_results=max_results, overwrite_db=overwrite_db.lower() == 'true')
-#     header, videos = data
-#     db_conn.write_db(header, videos, table_name='discogs', delete_on=['id'])
-#     return {'status': 'success', 'count': len(videos)}
-
-
-@app.route('/api_dev/consolidate_discogs_data/send_current_db/')
+@app.route('/api/consolidated_data/send_musicdiscg/')
 def send_current_db():
-    header, videos = db_conn.read_db(table_name='discogs')
+    header, videos = db_conn.read_db(table_name='musicdisg')
     return {'status': 'success', 'header': header, 'videos': videos, 'count': len(videos)}
 
 if __name__ == '__main__':

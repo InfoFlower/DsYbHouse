@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS "music" (
+CREATE TABLE "music" ( 
 	"kind"	TEXT,
 	"etag"	TEXT,
 	"id"	TEXT,
@@ -13,6 +13,6 @@ CREATE TABLE IF NOT EXISTS "music" (
 	"videoId"	TEXT,
 	"videoOwnerChannelTitle"	TEXT,
 	"videoOwnerChannelId"	TEXT,
-	"Discogged"	TEXT,
+ 	"Discogged" TEXT,
 	PRIMARY KEY("etag")
-)
+);
