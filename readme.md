@@ -13,6 +13,7 @@ Application homelab de gestion d'une collection musicale. Elle récupère les vi
 - [data/ — Base de données](data/doc.md) — schéma SQLite, scripts SQL, MPD
 - [web/ — Interface web](web/doc.md) — pages, filtres, interactions API
 - [Roadmap](roadmap.md) — travaux en cours, prochaines étapes, historique
+- [Revue de code](review.md) — bugs, redondances, améliorations à appliquer
 
 ---
 
