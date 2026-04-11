@@ -53,13 +53,14 @@ def import_discord_database():
     api = Mid_level_API(api_key)
     conn = db_manager()
     json_conn = DB_JsonHandler()
-    header, data = conn.read_db(query=f"select distinct id from discogs/* where id = 10028704*/;")
+    header, data = conn.read_db(query=f"select distinct id from discogs where id not in (select id_main from discogs_main);")
     serializer = JSON_Global_Multilayer( identifier='id')
-    first = True
     for i in tqdm(data):
         try :
+            time.sleep(0.5)
             res = api.get_all_data(i[0])
         except Exception as e:
+            time.sleep(1)
             print(f"Error fetching data for id {i[0]}: {e}")
             break
         if res :

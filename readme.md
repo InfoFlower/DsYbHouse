@@ -7,6 +7,7 @@ Application homelab de gestion d'une vidéothèque musicale. Elle récupère les
 ## Liens rapides
 
 - [Documentation technique](doc.md) — architecture, modules, routes API, base de données
+- [Schéma MPD](data/doc.md) — modèle physique de données de `housify.db`
 - [Roadmap](roadmap.md) — réalisations, chantiers en cours, plans futurs
 
 ---
