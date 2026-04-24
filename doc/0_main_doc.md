@@ -82,9 +82,9 @@ Via fichier `.env` à la racine :
 
 | Dossier | Documentation | Description |
 |---|---|---|
-| `src/` | [src/_doc.md](src/_doc.md) | Code source Python : APIs, BDD, normalisation JSON, orchestration |
-| `data/` | [data/doc.md](data/doc.md) | Base de données, scripts SQL, schéma MPD |
-| `web/` | [web/doc.md](web/doc.md) | Interface web : pages, filtres, interactions API |
+| `src/` | [src/_doc.md](2_srcweb_doc.md) | Code source Python : APIs, BDD, normalisation JSON, orchestration |
+| `data/` | [data/doc.md](3_data_doc.md) | Base de données, scripts SQL, schéma MPD |
+| `web/` | [web/doc.md](2_srcweb_web_doc.md) | Interface web : pages, filtres, interactions API |
 
 ---
 
