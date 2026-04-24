@@ -3,7 +3,7 @@ COPY .env .env
 COPY src_web/requirements.txt src_web/requirements.txt
 RUN ls -lrt
 WORKDIR /src_web
-RUN pip install --upgrade pip
+RUN apt-get update && apt-get install -y libpq-dev gcc && rm -rf /var/lib/apt/lists/*
 RUN pip install --no-cache-dir -r requirements.txt
 
 CMD ["python", "flask_server.py"]

@@ -10,10 +10,14 @@ from dotenv import load_dotenv
 
 load_dotenv()
 WD = os.getenv('WD')
+DB_USER = os.getenv('DB_USER')
+DB_PASS = os.getenv('DB_PASS')
+DB_NAME = os.getenv('DB_NAME')
 # Absolute path to base directory and public directory
 BASE_DIR = WD + 'web/'
+BDD_URL = f"postgresql://{DB_USER}:{DB_PASS}@db:5432/{DB_NAME}"
 
-db_conn = db_manager("data/housify.db")
+db_conn = db_manager(BDD_URL)
 
 @app.route('/')
 def index():
@@ -36,8 +40,8 @@ def receive_json(search, type, need_db):
         delete_field = 'playlistId'
     elif type == 'USER': 
         delete_field = 'videoOwnerChannelId'
-    if need_db == 'true': 
-        db_conn.write_db(header, videos, table_name='music', delete_on=[delete_field])
+    # if need_db == 'true': 
+    #     db_conn.write_db(header, videos, table_name='music', delete_on=[delete_field])
     return {'status': 'success', 'videos': videos, 'header': header, 'count': len(videos)}
 
 @app.route('/api/see_database/')

@@ -1,9 +1,12 @@
 import sqlite3
+import sqlalchemy
 import os
 import json
 from dotenv import load_dotenv
 load_dotenv()
 BASE_DIR = os.getenv('WD')
+
+
 
 #Utils
 def load_csv(file_path):
@@ -14,13 +17,12 @@ def load_csv(file_path):
 
 #Class
 class db_manager:
-    def __init__(self, db_path = 'data/housify.db'):
-        self.db_path = f"{BASE_DIR}/{db_path}"
+    def __init__(self, db_path):
+        self.db_path = db_path
 
     def execute(self, sql_script):
-        conn = sqlite3.connect(self.db_path)
-        c = conn.cursor()
-        c.execute(sql_script)
+        conn = sqlalchemy.create_engine(self.db_path).connect()
+        conn.exec_driver_sql(sql_script)
         conn.commit()
         conn.close()
 
@@ -37,18 +39,17 @@ class db_manager:
             return [tuple(self._prepare_value(value) for value in row) for row in data]
         return [tuple(self._prepare_value(v) for v in data)]
 
-    def _ensure_columns(self, conn, table_name, header):
-        c = conn.cursor()
-        c.execute(f"PRAGMA table_info({table_name})")
-        existing_cols = {row[1] for row in c.fetchall()}
-        for col in header:
-            if col not in existing_cols:
-                c.execute(f'ALTER TABLE {table_name} ADD COLUMN "{col}" TEXT')
-        conn.commit()
+# Déprécié
+    # def _ensure_columns(self, conn, table_name, header):
+    #     result = conn.execute(f"PRAGMA table_info({table_name})")
+    #     existing_cols = {row[1] for row in result.fetchall()}
+    #     for col in header:
+    #         if col not in existing_cols:
+    #             conn.execute(f'ALTER TABLE {table_name} ADD COLUMN "{col}" TEXT;')
+    #     conn.commit()
         
     def insert_data(self, header=[], data=None, table_name="music", type_of_struct='row'):
-        conn = sqlite3.connect(self.db_path)
-        c = conn.cursor()
+        conn = sqlalchemy.create_engine(self.db_path).connect()
         header_list = list(header)
         print(f"modified: {data}")
         try :
@@ -72,11 +73,11 @@ class db_manager:
             data = [[modified_data[i][r] for i in range(len(header_list))]  for r in range(len(modified_data[0]))]
 
         rows = self._prepare_rows(data)
-        self._ensure_columns(conn, table_name, header_list)
+        # self._ensure_columns(conn, table_name, header_list)
         placeholders = ', '.join(['?' for _ in header_list])
         cols = ', '.join(f'"{h}"' for h in header_list)
         print(f'Inserting into {table_name} ({cols}) with {len(rows)} rows.')
-        c.executemany(f'INSERT INTO {table_name} ({cols}) VALUES ({placeholders})', rows)
+        conn.executemany(f'INSERT INTO {table_name} ({cols}) VALUES ({placeholders})', rows)
         conn.commit()
         conn.close()
     
@@ -84,9 +85,8 @@ class db_manager:
         self.structure_file = f"{BASE_DIR}/data/sql/CREATE/CREATE_TABLE_{table_name.upper()}.sql"
         with open(self.structure_file, 'r') as f:
             create_table_sql = f.read()
-        conn = sqlite3.connect(self.db_path)
-        c = conn.cursor()
-        c.execute(create_table_sql)
+        conn = sqlalchemy.create_engine(self.db_path).connect()
+        conn.exec_driver_sql(create_table_sql)
         conn.commit()
         conn.close()
 
@@ -102,15 +102,20 @@ class db_manager:
         print('insert_data called with header:', header)
         self.insert_data(header=header, data=data, table_name=table_name, type_of_struct=type_of_struct)
 
+
     def read_db(self, table_name="music", query=None):
-        conn = sqlite3.connect(self.db_path)
-        c = conn.cursor()
+        import logging
+        conn = sqlalchemy.create_engine(self.db_path).connect()
         if query:
-            c.execute(query)
+            result = conn.exec_driver_sql(query)
         else:
-            c.execute(f"SELECT * FROM {table_name}")
-        data = c.fetchall()
-        header = [desc[0] for desc in c.description]
+            with open("/src_web/src/exports/create.sql", 'r') as f: querys = f.read().strip()
+            for query in querys.split(';'):
+                logging.debug(f"Executing query: {query.strip()}")
+                conn.exec_driver_sql(query)
+            result = conn.exec_driver_sql(f"SELECT * FROM {table_name}")
+        data = result.fetchall()
+        header = [desc[0] for desc in result.description]
         conn.close()
         return header, data
     
@@ -142,16 +147,15 @@ class db_manager:
                 nb += 1
             if nb >= len(on):
                 break
-        conn = sqlite3.connect(self.db_path)
-        c = conn.cursor()
+        conn = sqlalchemy.create_engine(self.db_path).connect()
         if type == 'delete':
             sql = f"DELETE FROM {table_name} WHERE {condition}"
             print(f"Executing SQL: {sql} with params {condition_params}")
-            c.execute(sql, condition_params)
+            conn.exec_driver_sql(sql, condition_params)
         elif type == 'update':
             set_clause = ', '.join([f"{k} = ?" for k in update_values.keys()])
             sql = f"UPDATE {table_name} SET {set_clause} WHERE {condition}"
             params = list(update_values.values()) + condition_params
-            c.execute(sql, params)
+            conn.exec_driver_sql(sql, params)
         conn.commit()
         conn.close()

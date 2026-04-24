@@ -44,7 +44,7 @@ class Mid_level_API(BaseAPI):
         return self._request('playlistItems', params)
 
     def return_video_from_playlist(self, playlist_id, max_output_length=None, max_results=50):
-        from src_backend.src.JSON_Youtube_Playlist import PlaylistDataNormalizer
+        from JSON_Youtube_Playlist import PlaylistDataNormalizer
         data_normalizer = PlaylistDataNormalizer()
         next_page_token = None
         page_count = 0
