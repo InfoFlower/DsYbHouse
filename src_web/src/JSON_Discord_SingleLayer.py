@@ -43,7 +43,7 @@ class SingleLayerDataNormalizer :
 
 if __name__ == "__main__":
     import os
-    from JSON_Basic import load_json
+    from src_backend.src.JSON_Basic import load_json
     normalizer = SingleLayerDataNormalizer()
     for i in os.listdir('src/py_data'):
         if i.endswith('.json'):

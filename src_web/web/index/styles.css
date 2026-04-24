@@ -100,3 +100,37 @@ main {
     backdrop-filter: blur(8px) saturate(140%);
     border: 1px solid rgba(255,255,255,0.06);
 }
+
+
+/* ---------- nav ---------- */
+
+.top-menu {
+    margin-bottom: 30px;
+    background: rgba(255,255,255,0.03);
+    padding: 10px 16px;
+    border-radius: 10px;
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(255,255,255,0.04);
+}
+.top-menu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 16px;
+    align-items: center;
+}
+.top-menu a {
+    color: #e8dfef;
+    text-decoration: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    transition: background 0.18s, color 0.18s, transform 0.12s;
+    font-weight: 600;
+}
+.top-menu a:hover,
+.top-menu a.active {
+    background: rgba(107,42,136,0.12);
+    color: var(--mustard);
+    transform: translateY(-1px);
+}

@@ -1,0 +1,41 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
+      POSTGRES_DB: ${DB_NAME}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.web
+    environment:
+      DATABASE_URL: postgresql://${DB_USER}:${DB_PASS}@db:5432/${DB_NAME}
+      YOUTUBE_API_KEY: ${YTB_API}
+      DISCOGS_TOKEN: ${DISCOGS_TOKEN}
+    volumes:
+      - ./src_web:/src_web
+    ports:
+      - "5000:5000"
+    # depends_on:
+    #   - db
+
+  # batch:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile.batch
+  #   environment:
+  #     DATABASE_URL: postgresql://${DB_USER}:${DB_PASS}@db:5432/${DB_NAME}
+  #     YOUTUBE_API_KEY: ${YOUTUBE_API_KEY}
+  #     DISCOGS_TOKEN: ${DISCOGS_TOKEN}
+  #   depends_on:
+  #     - db
+
+volumes:
+  pgdata:

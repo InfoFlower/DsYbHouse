@@ -1,3 +1,6 @@
+import sys
+    
+sys.path.append('src_web/src')
 from DB_Manager import db_manager
 
 class DB_JsonHandler:

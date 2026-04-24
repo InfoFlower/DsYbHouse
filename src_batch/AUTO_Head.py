@@ -6,4 +6,4 @@ BASE_DIR = os.getenv('WD')
 WORKSPACE = f"{BASE_DIR}/src/AUTOMATE/"
 
 
-from AUTOMATE.TASKS import RequestHandler
+from src_batch.AUTOMATE.TASKS import RequestHandler

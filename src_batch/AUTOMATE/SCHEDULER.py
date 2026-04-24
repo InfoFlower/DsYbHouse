@@ -1,4 +1,4 @@
-from TASKS import task
+from src_batch.AUTOMATE.TASKS import task
 
 class scheduler:
     def __init__(self, **args):

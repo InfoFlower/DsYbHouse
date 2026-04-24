@@ -8,11 +8,11 @@ Application homelab de gestion d'une collection musicale. Elle récupère les vi
 
 ## Liens rapides
 
-- [Documentation technique](doc.md) — architecture, flux de données, routes API
-- [src/ — Code source](src/_doc.md) — APIs, BDD, normalisation JSON
-- [data/ — Base de données](data/doc.md) — schéma SQLite, scripts SQL, MPD
-- [web/ — Interface web](web/doc.md) — pages, filtres, interactions API
-- [Roadmap](roadmap.md) — travaux en cours, prochaines étapes, historique
+- [Documentation technique](doc/0_main_doc.md) — architecture, flux de données, routes API
+- [src/ — Code source](doc/2_srcweb_doc.md) — APIs, BDD, normalisation JSON
+- [data/ — Base de données](doc/3_data_doc.md) — schéma SQLite, scripts SQL, MPD
+- [web/ — Interface web](doc/2_srcweb_web_doc.md) — pages, filtres, interactions API
+- [Roadmap](doc/1_misc_roadmap.md) — travaux en cours, prochaines étapes, historique
 - [Revue de code](review.md) — bugs, redondances, améliorations à appliquer
 
 ---

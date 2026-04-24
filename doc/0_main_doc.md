@@ -1,7 +1,7 @@
 # HOUSIFY — Documentation technique
 
 > Dernière mise à jour : avril 2026
-> → [README](readme.md) | [Roadmap](roadmap.md)
+> → [README](../readme.md) | [Roadmap](1_misc_roadmap.md)
 
 ---
 

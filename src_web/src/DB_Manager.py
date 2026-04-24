@@ -1,13 +1,7 @@
-import numpy as np
-import pandas as pd
-
-
-
 import sqlite3
 import os
 import json
 from dotenv import load_dotenv
-from polars import first
 load_dotenv()
 BASE_DIR = os.getenv('WD')
 
@@ -76,7 +70,6 @@ class db_manager:
                     modified_data.append(i)
                 first = False
             data = [[modified_data[i][r] for i in range(len(header_list))]  for r in range(len(modified_data[0]))]
-            pd.DataFrame(data).to_csv('modified_data.csv', index=False, header=header_list)
 
         rows = self._prepare_rows(data)
         self._ensure_columns(conn, table_name, header_list)
