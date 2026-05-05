@@ -7,4 +7,5 @@ CREATE TABLE extraartists (
  "tracks" TEXT,
  "id" TEXT,
  "resource_url" TEXT
+ created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

@@ -11,22 +11,30 @@ api_key = os.environ.get("YTB_API")
 BASE_DIR = os.getenv('WD')
 
 from API_Youtube import High_level_API
-import time
-from API_Discogs import Mid_level_API
-from JSON_Discord_SingleLayer import SingleLayerDataNormalizer
-from DB_JsonHandler import DB_JsonHandler
-from DB_Manager import db_manager
-# from tqdm import tqdm
-
+from CRED_Inator import Link_Users, generate_passphrase
 
 def request_videos_from_X(search, type, max_results = 50, max_output_length=None): 
     api = High_level_API(api_key)
     res = api.get_all_videos(search, type=type, max_results=max_results, max_output_length=max_output_length)
     return res
 
+class Cred_inator(Link_Users):
+    def __init__(self):
+        super().__init__()
+    
+    def create_passphrase_for_user(self, user):
+        passphrase = generate_passphrase()
+        self.add_link(passphrase, user)
+        return passphrase
+
 
 # A mettre dans le batch
-
+# from tqdm import tqdm
+# import time
+# from API_Discogs import Mid_level_API
+# from JSON_Discord_SingleLayer import SingleLayerDataNormalizer
+# from DB_JsonHandler import DB_JsonHandler
+# from DB_Manager import db_manager
 # from JSON_Global_Multilayer import JSON_Global_Multilayer
 # def consolidate_discoggs_data(max_results=None, overwrite_db=False):
 #     data_normalizer = SingleLayerDataNormalizer()

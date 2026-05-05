@@ -21,5 +21,6 @@ CREATE TABLE "discogs" (
 	"format_quantity" TEXT,
 	"formats" TEXT,
 	"etag" TEXT,
+	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY("id","etag")
 );

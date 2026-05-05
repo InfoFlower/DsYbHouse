@@ -4,4 +4,5 @@ CREATE TABLE formats (
  "qty" TEXT,
  "descriptions" TEXT,
  "text" TEXT
+ created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

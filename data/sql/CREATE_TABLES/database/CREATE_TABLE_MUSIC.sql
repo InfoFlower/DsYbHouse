@@ -14,5 +14,6 @@ CREATE TABLE "music" (
 	"videoOwnerChannelTitle"	TEXT,
 	"videoOwnerChannelId"	TEXT,
  	"Discogged" TEXT,
+	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 	PRIMARY KEY("etag")
 );

@@ -3,5 +3,6 @@ CREATE TABLE community (
  "have" TEXT,
  "want" TEXT,
  "data_quality" TEXT,
- "status" TEXT
+ "status" TEXT,
+ created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

@@ -24,5 +24,6 @@ CREATE TABLE discogs_main (
  is_offensive TEXT,
  "master_id" TEXT,
  "master_url" TEXT,
- "notes" TEXT
+ "notes" TEXT,
+ created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 );

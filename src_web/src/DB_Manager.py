@@ -1,8 +1,11 @@
-import sqlite3
+import logging
+from DB_Utils import build_condition, try_reorganize_data
 import sqlalchemy
 import os
 import json
 from dotenv import load_dotenv
+
+logging.basicConfig(level=logging.INFO)
 load_dotenv()
 BASE_DIR = os.getenv('WD')
 
@@ -38,47 +41,23 @@ class db_manager:
         if isinstance(data, (list, tuple)) and len(data) > 0 and isinstance(data[0], (list, tuple)):
             return [tuple(self._prepare_value(value) for value in row) for row in data]
         return [tuple(self._prepare_value(v) for v in data)]
-
-# Déprécié
-    # def _ensure_columns(self, conn, table_name, header):
-    #     result = conn.execute(f"PRAGMA table_info({table_name})")
-    #     existing_cols = {row[1] for row in result.fetchall()}
-    #     for col in header:
-    #         if col not in existing_cols:
-    #             conn.execute(f'ALTER TABLE {table_name} ADD COLUMN "{col}" TEXT;')
-    #     conn.commit()
         
     def insert_data(self, header=[], data=None, table_name="music", type_of_struct='row'):
-        conn = sqlalchemy.create_engine(self.db_path).connect()
         header_list = list(header)
-        print(f"modified: {data}")
         try :
             if type_of_struct == 'column' and isinstance(data[0], (list, tuple)) :
                 data = [[data[i][r] for i in range(len(header_list))]  for r in range(len(data[0]))]
         except Exception as e:
-            modified_data = []
-            first = True
-            for i in data :
-                if first :
-                    mapped = len(i)
-                if len(i)<mapped :
-                    i = i + [None]*(mapped-len(i))
-                    modified_data.append(i)
-                elif len(i)>mapped :
-                    i = i[:mapped]
-                    modified_data.append(i)
-                else :
-                    modified_data.append(i)
-                first = False
+            modified_data = try_reorganize_data(data)
             data = [[modified_data[i][r] for i in range(len(header_list))]  for r in range(len(modified_data[0]))]
-
-        rows = self._prepare_rows(data)
-        # self._ensure_columns(conn, table_name, header_list)
-        placeholders = ', '.join(['?' for _ in header_list])
+        rows = self._prepare_rows(data) # self._ensure_columns(conn, table_name, header_list)
+        # rows_dicts = [dict(zip(header, row)) for row in rows]
+        placeholders = ', '.join(['%s' for _ in header_list])
         cols = ', '.join(f'"{h}"' for h in header_list)
-        print(f'Inserting into {table_name} ({cols}) with {len(rows)} rows.')
-        conn.executemany(f'INSERT INTO {table_name} ({cols}) VALUES ({placeholders})', rows)
-        conn.commit()
+        conn = sqlalchemy.create_engine(self.db_path).connect()
+        for row in rows:
+            conn.exec_driver_sql(f'INSERT INTO {table_name} ({cols}) VALUES ({placeholders})', row)
+        conn.exec_driver_sql("COMMIT;")
         conn.close()
     
     def create_table(self, table_name="music"):
@@ -87,7 +66,7 @@ class db_manager:
             create_table_sql = f.read()
         conn = sqlalchemy.create_engine(self.db_path).connect()
         conn.exec_driver_sql(create_table_sql)
-        conn.commit()
+        conn.exec_driver_sql("COMMIT;")
         conn.close()
 
     def write_db(self, header, data, table_name="music", delete_on = None, create=False, type_of_struct='row'):
@@ -99,63 +78,50 @@ class db_manager:
                              , data=data
                              , header=header
                              , type_of_struct=type_of_struct)
-        print('insert_data called with header:', header)
         self.insert_data(header=header, data=data, table_name=table_name, type_of_struct=type_of_struct)
 
 
-    def read_db(self, table_name="music", query=None):
-        import logging
+    def read_db(self, table_name="music", query=None, condition=None, order_by=None, limit=None):
         conn = sqlalchemy.create_engine(self.db_path).connect()
         if query:
             result = conn.exec_driver_sql(query)
         else:
-            with open("/src_web/src/exports/create.sql", 'r') as f: querys = f.read().strip()
-            for query in querys.split(';'):
-                logging.debug(f"Executing query: {query.strip()}")
-                conn.exec_driver_sql(query)
-            result = conn.exec_driver_sql(f"SELECT * FROM {table_name}")
-        data = result.fetchall()
-        header = [desc[0] for desc in result.description]
+            sql = f"SELECT * FROM {table_name}"
+            if condition:
+                sql += f" WHERE {condition}"
+            if order_by:
+                sql += f" ORDER BY {order_by}"
+            if limit is not None:
+                sql += f" LIMIT {limit}"
+            result = conn.exec_driver_sql(sql)
+        rows = result.fetchall()
+        header = list(result.keys())
+        data = [dict(zip(header, row)) for row in rows]
         conn.close()
+        logging.debug(f"Read {len(data)} rows from {table_name} with header {header}")
         return header, data
     
     def modifify_data(self, type, table_name, on, data, header, update_values=None, type_of_struct='row'):
         print(f"Modifying data in {table_name} with type {type} on columns {on}...")
-        if isinstance(on, str):
-            on = [on]
-        nb = 0
-        first = True
-        condition = ""
-        condition_params = []
-        for i, h in enumerate(header):
-            if h in on:
-                if not first:
-                    condition += " OR "
-                if type_of_struct == 'column':
-                    print(f"Data sample for column {i},{h}: {data[i]}")
-                    unique_values = data[i]
-                if type_of_struct == 'row':
-                    unique_values = list(set(row[i] for row in data))
-                    first = False
-                if unique_values not in condition_params:
-                    if isinstance(unique_values,list):
-                        condition_params.extend(unique_values)
-                    else:
-                        condition_params.append(unique_values)
-                placeholders = ', '.join(['?' for _ in condition_params])
-                condition += f"{h} IN ({placeholders})"
-                nb += 1
-            if nb >= len(on):
-                break
+        if isinstance(on, str): on = [on]
+        condition, condition_params = build_condition(header, data, on, type_of_struct)
         conn = sqlalchemy.create_engine(self.db_path).connect()
         if type == 'delete':
-            sql = f"DELETE FROM {table_name} WHERE {condition}"
-            print(f"Executing SQL: {sql} with params {condition_params}")
-            conn.exec_driver_sql(sql, condition_params)
+            sql = f"DELETE FROM {table_name} WHERE {table_name}.{condition}"
+            conn.exec_driver_sql(sql, tuple(condition_params))
         elif type == 'update':
             set_clause = ', '.join([f"{k} = ?" for k in update_values.keys()])
             sql = f"UPDATE {table_name} SET {set_clause} WHERE {condition}"
             params = list(update_values.values()) + condition_params
-            conn.exec_driver_sql(sql, params)
+            conn.exec_driver_sql(sql, tuple(params))
         conn.commit()
         conn.close()
+
+# Déprécié
+    # def _ensure_columns(self, conn, table_name, header):
+    #     result = conn.execute(f"PRAGMA table_info({table_name})")
+    #     existing_cols = {row[1] for row in result.fetchall()}
+    #     for col in header:
+    #         if col not in existing_cols:
+    #             conn.execute(f'ALTER TABLE {table_name} ADD COLUMN "{col}" TEXT;')
+    #     conn.commit()

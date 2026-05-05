@@ -4,7 +4,6 @@ let currentView = 'grid';
 
 document.addEventListener('DOMContentLoaded', function () {
     loadMusicDiscogs();
-
     document.getElementById('channel-filter').addEventListener('change', displayFilteredVideos);
     document.getElementById('genre-filter').addEventListener('change', displayFilteredVideos);
     document.getElementById('rating-filter').addEventListener('change', displayFilteredVideos);
@@ -22,7 +21,7 @@ function idx(key) {
 
 function row(video, key) {
     const i = idx(key);
-    return i >= 0 ? video[i] : null;
+    return i >= 0 ? video[key] : null;
 }
 
 function parseList(raw) {
@@ -304,9 +303,11 @@ function renderCardGrid(group) {
     html += desc ? `<p class="description">${desc.substring(0, 120)}${desc.length > 120 ? '…' : ''}</p>` : '';
 
     if (hasMultiple) {
+        html += buildDiscogsBlock(first);
+        let extra = ''
+        group.rows.forEach(v => { extra += buildDiscogsBlock(v); });
         html += `<div class="sub-frames-label">${group.rows.length} Discogs matches</div>`;
         html += '<div class="sub-frames">';
-        group.rows.forEach(v => { html += buildDiscogsBlock(v); });
         html += '</div>';
     } else {
         html += buildDiscogsBlock(first);
@@ -339,9 +340,11 @@ function renderCardList(group) {
     html += desc ? `<p class="description">${desc.substring(0, 200)}${desc.length > 200 ? '…' : ''}</p>` : '';
 
     if (hasMultiple) {
+        html += buildDiscogsBlock(first);
+        let extra = ''
+        group.rows.forEach(v => { extra += buildDiscogsBlock(v); });
         html += `<div class="sub-frames-label">${group.rows.length} Discogs matches</div>`;
         html += '<div class="sub-frames">';
-        group.rows.forEach(v => { html += buildDiscogsBlock(v); });
         html += '</div>';
     } else {
         html += buildDiscogsBlock(first);

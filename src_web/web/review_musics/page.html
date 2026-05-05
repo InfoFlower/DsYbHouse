@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<script src="script.js"></script>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Review Musics - Housify</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <img src="../logo.svg" alt="Housify Logo" class="logo">
+        </div>
+        <h1>Review Musics</h1>
+        <a href="../index/page.html" class="back-btn">← Back to Home</a>
+    </header>
+    <nav class="top-menu" aria-label="Main navigation">
+        <ul>
+            <li><a href="../index/page.html">Home</a></li>
+            <li><a href="../retreive_videos/page.html">Retrieve Videos</a></li>
+            <li><a href="../view_videos/page.html">Saved Videos</a></li>
+            <li><a href="../view_musicdisg/page.html">Music Discogs</a></li>
+            <li><a href="page.html">Review Musics</a></li>
+        </ul>
+    </nav>
+    <main>
+        <div class="login" id="login-section">
+            <h2>Login</h2>
+            <form id="login-form">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+                <button type="submit">Login</button>
+            </form>
+        </div>
+        <div class="select_video" id="select-video-section" style="display:none;">
+            <h2>Where to begin</h2>
+            <div id="select-rated-unrated">
+                <button id="rated-btn">Rated songs</button>
+                <button id="unrated-btn">Unrated songs</button>
+                <div id="unrated-selector" style="display:none;">
+                    <h3>Unrated songs</h3>
+                    <select id="unrated-videos-dropdown">
+                        <option value="Random">Random</option>
+                        <option value="Oldest">Oldest</option>
+                        <option value="Newest">Newest</option>
+                        <option value="Best rated">Best rated</option>
+                        <option value="Most viewed">Most viewed</option>
+                    </select>
+                    <button id="select-unrated-video-btn">Select</button>
+                </div>
+            </div>
+        </div>
+        <div id = "swipper" style="display:none;">
+            <h2>Rate this song</h2>
+            <div id="swipper-container">
+            </div>
+            <div id="type-card">
+                <button id="open-tile-selector" class="icon-btn" title="Sélectionner les mots">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+                <div id="tile-selector" style="display:none;">
+                    <h3>Select words to describe the song</h3>
+                    <div class="tiles-grid" id="available-tiles">
+                      <!-- Les tiles disponibles seront générées dynamiquement ici -->
+                    </div>
+              </button>
+            </div>
+            <div class="tiles-grid" id="active-tiles">
+              <!-- Les tiles seront générées dynamiquement ici -->
+            </div>
+            <div id="rating-section">
+                <input type="range" id="monSlider" min="1" max="5" step="1" value="3">
+                <button id="submit-rating-btn">Submit Rating</button>
+            </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

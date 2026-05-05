@@ -292,17 +292,12 @@ function displayVideos(videos, header, view = currentView) {
     if (view === 'grid') {
         html += '<div class="video-grid">';
         videos.forEach(video => {
-            const videoObj = {};
-            header.forEach((key, index) => {
-                videoObj[key] = video[index];
-            });
-            
             html += `
                 <div class="video-card">
-                    ${videoObj.url ? `<img src="${videoObj.url}" alt="Thumbnail" class="thumbnail">` : ''}
-                    <h3>${videoObj.title || 'Untitled'}</h3>
-                    <p>${videoObj.description ? videoObj.description.substring(0, 100) + '...' : 'No description'}</p>
-                    ${videoObj.videoId ? `<a href="https://www.youtube.com/watch?v=${videoObj.videoId}" target="_blank">Watch Video</a>` : ''}
+                    ${video.url ? `<img src="${video.url}" alt="Thumbnail" class="thumbnail">` : ''}
+                    <h3>${video.title || 'Untitled'}</h3>
+                    <p>${video.description ? video.description.substring(0, 100) + '...' : 'No description'}</p>
+                    ${video.videoId ? `<a href="https://www.youtube.com/watch?v=${video.videoId}" target="_blank">Watch Video</a>` : ''}
                 </div>
             `;
         });
@@ -310,18 +305,13 @@ function displayVideos(videos, header, view = currentView) {
     } else {
         html += '<div class="video-list">';
         videos.forEach(video => {
-            const videoObj = {};
-            header.forEach((key, index) => {
-                videoObj[key] = video[index];
-            });
-            
             html += `
                 <div class="video-card-list">
-                    ${videoObj.url ? `<img src="${videoObj.url}" alt="Thumbnail" class="thumbnail">` : ''}
+                    ${video.url ? `<img src="${video.url}" alt="Thumbnail" class="thumbnail">` : ''}
                     <div class="content">
-                        <h3>${videoObj.title || 'Untitled'}</h3>
-                        <p>${videoObj.description || 'No description'}</p>
-                        ${videoObj.videoId ? `<a href="https://www.youtube.com/watch?v=${videoObj.videoId}" target="_blank">Watch Video</a>` : ''}
+                        <h3>${video.title || 'Untitled'}</h3>
+                        <p>${video.description || 'No description'}</p>
+                        ${video.videoId ? `<a href="https://www.youtube.com/watch?v=${video.videoId}" target="_blank">Watch Video</a>` : ''}
                     </div>
                 </div>
             `;

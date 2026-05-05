@@ -4,5 +4,6 @@ CREATE TABLE videos (
  "title" TEXT,
  "description" TEXT,
  "duration" TEXT,
- "embed" TEXT
+ "embed" TEXT,
+ created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

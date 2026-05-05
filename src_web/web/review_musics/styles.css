@@ -1,0 +1,1038 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@400;700&display=swap');
+
+:root{
+    --bg-black: #070507;
+    --purple: #6b2a88;
+    --mustard: #d1a21a;
+    --glass-opa: 0.12;
+    --accent: #b286ff;
+    --green: #4caf50;
+}
+
+body {
+    background: radial-gradient(1200px 600px at 10% 10%, rgba(107,42,136,0.14), transparent 10%),
+                radial-gradient(900px 400px at 90% 90%, rgba(209,162,26,0.06), transparent 10%),
+                var(--bg-black);
+    color: #efecec;
+    font-family: 'Montserrat', Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    min-height: 100vh;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+/* Top navigation placed between header and main - keeps spacing to avoid overlap */
+.top-menu {
+    margin-bottom: 30px;
+    background: rgba(255,255,255,0.03);
+    padding: 10px 16px;
+    border-radius: 10px;
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(255,255,255,0.04);
+}
+.top-menu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 16px;
+    align-items: center;
+}
+.top-menu a {
+    color: #e8dfef;
+    text-decoration: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    transition: background 0.18s, color 0.18s, transform 0.12s;
+    font-weight: 600;
+}
+.top-menu a:hover {
+    background: rgba(107,42,136,0.12);
+    color: var(--mustard);
+    transform: translateY(-1px);
+}
+
+
+.header-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.view-toggle-btn {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.04);
+    border-radius: 10px;
+    padding: 8px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    backdrop-filter: blur(8px) saturate(120%);
+}
+
+.view-toggle-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 26px rgba(107,42,136,0.12); }
+
+.icon-squares {
+    display: grid;
+    grid-template-columns: repeat(2, 8px);
+    grid-template-rows: repeat(2, 8px);
+    gap: 2px;
+}
+
+.icon-squares .square {
+    width: 8px;
+    height: 8px;
+    background-color: var(--accent);
+    border-radius: 1px;
+}
+
+.icon-lines {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.icon-lines .line {
+    width: 20px;
+    height: 2px;
+    background-color: var(--accent);
+    border-radius: 1px;
+}
+
+h1 {
+    font-size: 2rem;
+    margin: 0;
+    color: var(--purple);
+    font-family: 'Playfair Display', serif;
+}
+
+.back-btn {
+    color: var(--mustard);
+    text-decoration: none;
+    font-size: 1.05rem;
+    transition: color 0.2s;
+}
+
+.back-btn:hover {
+    color: #ffd87a;
+}
+
+
+/* Main content area - flex container for forms */
+
+/* Make the main container a flex row that allows wrapping */
+main {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: center;
+    align-items: stretch;
+    max-width: 1200px;      /* optional: restricts overall width */
+    margin: 0 auto;         /* centers the row */
+}
+
+
+
+/* === Login Form Styling (Glassmorphic Card) === */
+
+/* Remove the old margins on each card, allow them to grow */
+.login, .register {
+    flex: 1 1 450px;        /* basis 450px, can grow, can shrink */
+    max-width: 550px;       /* wider than before */
+    margin: 1rem 0;         /* no auto margin */
+    padding: 2rem 1.8rem;
+    background: rgba(8, 5, 12, 0.65);
+    backdrop-filter: blur(12px);
+    border-radius: 28px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 25px 45px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.login :hover , .register :hover {
+    transform: translateY(-3px);
+    box-shadow: 0 30px 50px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.login  h2, .register  h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 600;
+    text-align: center;
+    margin: 0 0 1.8rem 0;
+    background: linear-gradient(135deg, var(--mustard), #f3c742);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    letter-spacing: -0.3px;
+}
+
+/* Form group spacing */
+.login  form, .register  form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.login  label, .register  label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: rgba(255, 245, 245, 0.7);
+    margin-bottom: 0.5rem;
+}
+
+.login  input, .register  input {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 14px;
+    padding: 12px 16px;
+    font-family: 'Montserrat', Arial, sans-serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #f0eef5;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+}
+
+.login  input:focus, .register  input:focus {
+    outline: none;
+    border-color: var(--purple);
+    box-shadow: 0 0 0 3px rgba(107, 42, 136, 0.4);
+    background: rgba(10, 7, 15, 0.7);
+}
+
+.login input::placeholder, .register  input::placeholder{
+    color: rgba(255, 240, 255, 0.3);
+    font-weight: 400;
+}
+
+/* Button styling – matches page's interactive elements */
+.login button[type="submit"] , .register  button[type="submit"] {
+    background: linear-gradient(105deg, var(--purple), #4a1a6b);
+    border: none;
+    border-radius: 40px;
+    padding: 12px 20px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: 0.5px;
+    color: white;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    margin-top: 0.5rem;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3);
+    width: 100%;
+    text-transform: uppercase;
+}
+
+.login button[type="submit"]:hover , .register  button[type="submit"]:hover {
+    background: linear-gradient(105deg, #7f2fae, var(--purple));
+    transform: translateY(-2px);
+    box-shadow: 0 12px 22px rgba(107, 42, 136, 0.3);
+}
+
+.login button[type="submit"]:active, .register  button[type="submit"]:active {
+    transform: translateY(1px);
+    transition: 0.05s linear;
+}
+
+/* Responsive adjustments */
+@media (max-width: 520px) {
+    .login, .register  {
+        margin: 1rem;
+        padding: 1.5rem 1.2rem;
+        max-width: none;
+        border-radius: 24px;
+    }
+    .login  h2, .register  h2 {
+        font-size: 1.7rem;
+    }
+    .login input, .register  input {
+        padding: 10px 14px;
+    }
+}
+
+/* Optional: extra micro-interaction for required fields */
+.login input:valid:not, .register  input:valid:not(:placeholder-shown) {
+    border-bottom-color: rgba(107, 42, 136, 0.5);
+}
+
+/* Video ratings ! */
+/* === Conteneur principal "Where to begin" === */
+.select_video {
+    flex: 1 1 450px;
+    max-width: 550px;
+    margin: 1rem 0;
+    padding: 2rem 1.8rem;
+    background: rgba(8, 5, 12, 0.65);
+    backdrop-filter: blur(12px);
+    border-radius: 28px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 25px 45px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.select_video:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 30px 50px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+/* Titre principal */
+.select_video h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 600;
+    text-align: center;
+    margin: 0 0 1.8rem 0;
+    background: linear-gradient(135deg, var(--mustard), #f3c742);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    letter-spacing: -0.3px;
+}
+
+/* Zone des deux boutons */
+#select-rated-unrated {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+/* Styles communs à #rated-btn et #unrated-btn */
+#rated-btn, #unrated-btn {
+    width: 100%;
+    padding: 12px 20px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    border-radius: 40px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    border: 1px solid transparent;
+    background: rgba(255, 255, 255, 0.03);
+    color: #bdb8d0;
+    box-shadow: none;
+}
+
+/* État inactif (par défaut) – déjà défini ci-dessus, mais on peut le préciser */
+#rated-btn:not(.active), #unrated-btn:not(.active) {
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* État actif pour "Rated songs" (violet) */
+#rated-btn.active {
+    background: linear-gradient(105deg, var(--purple), #4a1a6b);
+    color: white;
+    border: none;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3);
+}
+
+#rated-btn.active:hover {
+    background: linear-gradient(105deg, #7f2fae, var(--purple));
+    transform: translateY(-2px);
+    box-shadow: 0 12px 22px rgba(107, 42, 136, 0.3);
+}
+
+/* État actif pour "Unrated songs" (mustard) */
+#unrated-btn.active {
+    background: rgba(209, 162, 26, 0.15);
+    border: 1px solid var(--mustard);
+    color: var(--mustard);
+    box-shadow: 0 0 12px rgba(209, 162, 26, 0.2);
+}
+
+#unrated-btn.active:hover {
+    background: rgba(209, 162, 26, 0.25);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(209, 162, 26, 0.25);
+}
+
+/* Hover pour les deux boutons en état inactif */
+#rated-btn:not(.active):hover, #unrated-btn:not(.active):hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateY(-1px);
+}
+
+/* Activation au clic (feedback) */
+#rated-btn:active, #unrated-btn:active {
+    transform: translateY(1px);
+}
+
+/* Panneau déroulant Unrated (caché par défaut) */
+#unrated-selector {
+    margin-top: 1.8rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+/* Sous-titre "Unrated songs" */
+#unrated-selector h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--mustard);
+    margin: 0 0 1rem 0;
+    text-align: center;
+}
+
+/* Select (dropdown) */
+#unrated-videos-dropdown {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.55);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 14px;
+    padding: 12px 16px;
+    font-family: 'Montserrat', Arial, sans-serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #f0eef5;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23d1a21a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    background-size: 16px;
+}
+
+#unrated-videos-dropdown:hover {
+    background-color: rgba(20, 15, 28, 0.8);
+    border-color: rgba(209, 162, 26, 0.6);
+}
+
+#unrated-videos-dropdown:focus {
+    outline: none;
+    border-color: var(--purple);
+    box-shadow: 0 0 0 3px rgba(107, 42, 136, 0.4);
+    background-color: rgba(10, 7, 15, 0.9);
+}
+
+#unrated-videos-dropdown option {
+    background: #0c0a12;
+    color: #e8dfef;
+    padding: 10px;
+}
+
+/* Bouton "Select" à l'intérieur du panneau */
+#select-unrated-video-btn {
+    width: 100%;
+    margin-top: 1.25rem;
+    background: linear-gradient(105deg, #2c2a35, #1f1c28);
+    border: 1px solid rgba(209, 162, 26, 0.4);
+    border-radius: 40px;
+    padding: 12px 20px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: var(--mustard);
+    cursor: pointer;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+#select-unrated-video-btn:hover {
+    background: linear-gradient(105deg, #3f3a4a, #2e2a38);
+    border-color: var(--mustard);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(209, 162, 26, 0.2);
+    color: #ffdf8c;
+}
+
+#select-unrated-video-btn:active {
+    transform: translateY(1px);
+}
+
+/* Responsive */
+@media (max-width: 520px) {
+    .select_video {
+        margin: 1rem;
+        padding: 1.5rem 1.2rem;
+        border-radius: 24px;
+    }
+    .select_video h2 {
+        font-size: 1.7rem;
+    }
+    #rated-btn, #unrated-btn {
+        font-size: 0.9rem;
+        padding: 10px 16px;
+    }
+    #unrated-videos-dropdown {
+        padding: 10px 14px;
+        font-size: 0.9rem;
+    }
+    #select-unrated-video-btn {
+        font-size: 0.85rem;
+        padding: 10px 16px;
+    }
+}
+/* ========== SWIPPE CARD (YouTube video player) ========== */
+#type-card,
+.tiles-grid {
+    grid-column: 2 / 3;
+}
+
+.swippe-card {
+  flex: 1 1 600px;               /* plus large que les formulaires */
+  max-width: 720px;
+  margin: 1rem 0;
+  padding: 1.8rem;
+  background: rgba(8, 5, 12, 0.65);
+  backdrop-filter: blur(12px);
+  border-radius: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 25px 45px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.swippe-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 30px 50px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+/* Iframe responsive + style arrondi */
+.swippe-card iframe {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 16px;
+  border: none;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.55);
+  margin-bottom: 1.4rem;
+}
+
+/* Titre de la musique */
+#music-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
+  font-weight: 600;
+  text-align: center;
+  margin: 0;
+  background: linear-gradient(135deg, var(--mustard), #f3c742);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  letter-spacing: -0.3px;
+  word-break: break-word;
+}
+
+/* Ajustements responsives */
+@media (max-width: 768px) {
+  .swippe-card {
+    padding: 1.2rem;
+    border-radius: 22px;
+  }
+  #music-title {
+    font-size: 1.5rem;
+  }
+}
+
+/* ========== SWIPPER (rate this song) ========== */
+#swipper {
+  flex: 1 1 450px;
+  margin: 1rem 0;
+  padding: 2rem 1.8rem;
+  background: rgba(8, 5, 12, 0.65);
+  backdrop-filter: blur(12px);
+  border-radius: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 25px 45px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+#swipper:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 30px 50px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+/* Titre "Rate this song" */
+#swipper h2 {
+  grid-column: 1 / -1;
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  font-weight: 600;
+  text-align: center;
+  margin: 0;
+  background: linear-gradient(135deg, var(--mustard), #f3c742);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  letter-spacing: -0.3px;
+}
+
+/* Conteneur de l’espace de swipe (placeholder) */
+#swipper-container {
+  grid-column: 1 / 2;
+  width: 100%;
+  min-height: 160px;
+  background: rgba(0, 0, 0, 0.35);
+  border-radius: 20px;
+  border: 1px dashed rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.25);
+  font-weight: 500;
+  font-size: 0.95rem;
+  letter-spacing: 0.5px;
+  transition: border-color 0.2s;
+}
+#swipper-container:hover {
+  border-color: var(--purple);
+}
+
+/* === Slider personnalisé === */
+#rating-section {
+    grid-column: 1 / -1;
+    margin-top: 1rem;
+}
+
+#monSlider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 10px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  outline: none;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: background 0.2s;
+  margin: 0;
+}
+
+/* Piste (track) pour WebKit */
+#monSlider::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 10px;
+  background: linear-gradient(to right, var(--purple), var(--mustard));
+  border-radius: 20px;
+}
+
+/* Pouce (thumb) pour WebKit */
+#monSlider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 24px;
+  height: 24px;
+  margin-top: -7px;              /* alignement vertical */
+  background: radial-gradient(circle, #ffffff, #d1a21a);
+  border: 2px solid var(--mustard);
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 0 14px rgba(209, 162, 26, 0.6);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+#monSlider::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+  box-shadow: 0 0 20px rgba(209, 162, 26, 0.9);
+}
+
+
+/* === Bouton Submit Rating === */
+#submit-rating-btn {
+  width: 100%;
+  background: linear-gradient(105deg, var(--purple), #4a1a6b);
+  border: none;
+  border-radius: 40px;
+  padding: 13px 20px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: white;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3);
+  margin-top: 0.5rem;            /* léger espace au-dessus */
+}
+
+#submit-rating-btn:hover {
+  background: linear-gradient(105deg, #7f2fae, var(--purple));
+  transform: translateY(-2px);
+  box-shadow: 0 12px 22px rgba(107, 42, 136, 0.35);
+}
+
+#submit-rating-btn:active {
+  transform: translateY(1px);
+  transition: 0.05s linear;
+}
+
+@media (max-width: 520px) {
+  #swipper {
+    margin: 1rem;
+    padding: 1.5rem 1.2rem;
+    border-radius: 24px;
+  }
+  #swipper h2 {
+    font-size: 1.6rem;
+  }
+  #submit-rating-btn {
+    font-size: 0.9rem;
+    padding: 11px 16px;
+  }
+  #monSlider {
+    height: 8px;
+  }
+  #monSlider::-webkit-slider-thumb {
+    width: 20px;
+    height: 20px;
+    margin-top: -6px;
+  }
+  #monSlider::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+/* ========== PLAYER + TILES ROW ========== */
+.player-tiles-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+/* ========== TILES PANEL ========== */
+.tiles-panel {
+  flex: 1 1 300px;
+  max-width: 400px;
+  margin: 1rem 0;
+  padding: 1.8rem;
+  background: rgba(8, 5, 12, 0.65);
+  backdrop-filter: blur(12px);
+  border-radius: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 25px 45px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.tiles-panel:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 30px 50px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+/* En-tête du panneau */
+.tiles-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.tiles-header h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem;
+  font-weight: 600;
+  margin: 0;
+  background: linear-gradient(135deg, var(--mustard), #f3c742);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  letter-spacing: -0.3px;
+}
+
+/* Bouton icône discret */
+.icon-btn {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent);
+  transition: all 0.2s;
+}
+
+.icon-btn:hover {
+  background: rgba(107, 42, 136, 0.15);
+  color: var(--mustard);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(107, 42, 136, 0.15);
+}
+
+/* Grille des tiles actives */
+.tiles-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  min-height: 60px;
+  padding: 10px 0;
+  align-items: flex-start;
+}
+
+/* Un tile individuel */
+.tile {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 30px;
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #e0d6f0;
+  backdrop-filter: blur(4px);
+  transition: all 0.2s;
+  cursor: default;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.tile:hover,
+.tile.selected {
+  background: rgba(209, 162, 26, 0.1);
+  border-color: var(--mustard);
+  color: var(--mustard);
+}
+
+.tile .remove-tile {
+  margin-left: 6px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  line-height: 1;
+  color: rgba(255,255,255,0.4);
+  transition: color 0.2s;
+}
+.tile .remove-tile:hover {
+  color: #ff5e5e;
+}
+
+/* Message quand aucun tile */
+.tiles-grid:empty::after {
+  content: "Aucun mot sélectionné.";
+  color: rgba(255, 255, 255, 0.25);
+  font-style: italic;
+  font-size: 0.9rem;
+  text-align: center;
+  width: 100%;
+}
+
+/* ========== OVERLAY (MODALE) ========== */
+.overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 1rem;
+}
+
+.overlay-card {
+  background: rgba(8, 5, 12, 0.85);
+  backdrop-filter: blur(16px);
+  border-radius: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  padding: 2rem;
+  width: 100%;
+  max-width: 550px;
+  max-height: 80vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.overlay-card h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin: 0;
+  text-align: center;
+  background: linear-gradient(135deg, var(--mustard), #f3c742);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+/* Champ de recherche / filtre */
+.overlay-search input {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  padding: 12px 16px;
+  font-family: 'Montserrat', Arial, sans-serif;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #f0eef5;
+  outline: none;
+  transition: all 0.2s;
+}
+
+.overlay-search input:focus {
+  border-color: var(--purple);
+  box-shadow: 0 0 0 3px rgba(107, 42, 136, 0.4);
+  background: rgba(10, 7, 15, 0.7);
+}
+
+.overlay-search input::placeholder {
+  color: rgba(255, 240, 255, 0.3);
+}
+
+/* Conteneur des tags à cocher */
+.overlay-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  max-height: 300px;
+  overflow-y: auto;
+  padding-right: 5px;
+}
+
+/* Option tag (label avec checkbox) */
+.tag-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 30px;
+  padding: 7px 14px 7px 10px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #d5cee8;
+  transition: all 0.2s;
+  user-select: none;
+}
+
+.tag-option:hover {
+  background: rgba(107, 42, 136, 0.12);
+  border-color: var(--purple);
+}
+
+.tag-option input[type="checkbox"] {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 5px;
+  background: transparent;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s;
+}
+
+.tag-option input[type="checkbox"]:checked {
+  background: var(--purple);
+  border-color: var(--purple);
+}
+
+.tag-option input[type="checkbox"]:checked::after {
+  content: "✓";
+  color: white;
+  font-size: 12px;
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.tag-option:has(input:checked) {
+  background: rgba(107, 42, 136, 0.2);
+  border-color: var(--purple);
+  color: white;
+}
+
+/* Actions en bas de l'overlay */
+.overlay-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 0.5rem;
+}
+
+/* Bouton primaire (Appliquer) */
+.primary-btn {
+  background: linear-gradient(105deg, var(--purple), #4a1a6b);
+  border: none;
+  border-radius: 40px;
+  padding: 11px 24px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: white;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3);
+}
+
+.primary-btn:hover {
+  background: linear-gradient(105deg, #7f2fae, var(--purple));
+  transform: translateY(-2px);
+  box-shadow: 0 12px 22px rgba(107, 42, 136, 0.35);
+}
+
+/* Bouton fantôme (Annuler) */
+.ghost-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 40px;
+  padding: 11px 24px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: #d5cee8;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.ghost-btn:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.3);
+  color: white;
+  transform: translateY(-2px);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .player-tiles-row {
+    flex-direction: column;
+    align-items: center;
+  }
+  .tiles-panel {
+    max-width: 100%;
+    width: 100%;
+  }
+  .overlay-card {
+    padding: 1.5rem;
+    margin: 1rem;
+  }
+}

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Retrieve Videos - Housify</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="script.js"></script>
 </head>
 <body>
     <header>
@@ -24,5 +25,20 @@
             <li><a href="../admin_panel/page.html">Admin Panel</a></li>
         </ul>
     </nav>
+    <main>
+        <div class="admin-panel">
+            <h2>Admin Panel</h2>
+            <div id="tile-management">
+                <h3>Tile Management</h3>
+                <input type="text" id="new-tile-name" placeholder="New Tile Name">
+                <button id="add-tile-btn">Add Tile</button>
+                <button id="remove-tile-btn">Remove Tile</button>
+            </div>
+            <div id="active-tiles-section">
+            <h3>Active Tiles</h3>
+            <div class="tiles-grid" id="active-tiles">
+            </div>
+        </div>
+    </main>
 </body>
 </html>

@@ -7,5 +7,6 @@ CREATE TABLE artists (
  "tracks" TEXT,
  "id" TEXT,
  "resource_url" TEXT,
- "thumbnail_url" TEXT
+ "thumbnail_url" TEXT,
+ created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

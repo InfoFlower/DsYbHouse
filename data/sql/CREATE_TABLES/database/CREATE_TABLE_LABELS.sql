@@ -1,4 +1,4 @@
-CREATE TABLE companies (
+CREATE TABLE labels (
  "id_main" TEXT,
  "name" TEXT,
  "catno" TEXT,
@@ -6,5 +6,6 @@ CREATE TABLE companies (
  "entity_type_name" TEXT,
  "id" TEXT,
  "resource_url" TEXT,
- "thumbnail_url" TEXT
+ "thumbnail_url" TEXT,
+ created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

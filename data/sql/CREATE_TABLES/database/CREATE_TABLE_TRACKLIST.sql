@@ -5,5 +5,6 @@ CREATE TABLE tracklist (
  "title" TEXT,
  "duration" TEXT,
  "artists" TEXT,
- "extraartists" TEXT
+ "extraartists" TEXT,
+ created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

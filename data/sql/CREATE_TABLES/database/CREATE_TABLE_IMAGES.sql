@@ -5,5 +5,6 @@ CREATE TABLE images (
  "resource_url" TEXT,
  "uri150" TEXT,
  "width" TEXT,
- "height" TEXT
+ "height" TEXT,
+ created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
