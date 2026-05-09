@@ -56,6 +56,7 @@ class db_manager:
         cols = ', '.join(f'"{h}"' for h in header_list)
         conn = sqlalchemy.create_engine(self.db_path).connect()
         for row in rows:
+            print(f'INSERT INTO {table_name} ({cols}) VALUES ({placeholders})', row)
             conn.exec_driver_sql(f'INSERT INTO {table_name} ({cols}) VALUES ({placeholders})', row)
         conn.exec_driver_sql("COMMIT;")
         conn.close()

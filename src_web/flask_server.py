@@ -2,7 +2,7 @@ import flask
 from flask import send_from_directory, redirect, url_for
 from werkzeug.security import generate_password_hash, check_password_hash
 import logging
-from src.Z_methods import request_videos_from_X, Cred_inator
+from src.Z_methods import request_videos_from_X, Cred_inator, get_field
 from src.DB_Manager import db_manager
 from src.DB_UserManager import DB_UserManager
 app = flask.Flask(__name__)
@@ -78,13 +78,29 @@ def login():
     else:
         return {'status': 'error', 'message': 'Invalid credentials.'}
 
-@app.route('/api/get_unrated_video/<passphrase>')
-def get_unrated_video(passphrase, order_by=None):
+@app.route('/api/get_rated_videos/<passphrase>')
+def get_rated_video(passphrase):
     user = link_users.get_user(passphrase)
     if user is None:
         return {'status': 'error', 'message': 'Invalid passphrase.'}
     else:
-        query = f"select distinct etag, music_id, music_title, music_url from unrated_music WHERE rater_username not like '%%{user}%%' or rater_username is null {'order by '+order_by if order_by else ''} limit 1;"
+        query = f"select etag, music_id, music_title, music_url, "+'"user_rating"'+f", user_Category, rating, publishedAt as rating_date from unrated_music WHERE rater_username like '%%{user}%%';"
+        print(query)
+        header, data = db_conn.read_db(query=query)
+        if len(data) == 0:
+            return {'status': 'success', 'message': 'No rated videos found.', 'videos': None}
+        else:
+            return {'status': 'success', 'videos': data, 'header': header}
+
+@app.route('/api/get_unrated_video/<passphrase>', methods=['POST'])
+def get_unrated_video(passphrase):
+    user = link_users.get_user(passphrase)
+    if user is None:
+        return {'status': 'error', 'message': 'Invalid passphrase.'}
+    else:
+        order_by = get_field(flask.request.get_json().get('order_by'))
+        query = f"select etag, music_id, music_title, music_url from unrated_music WHERE rater_username not like '%%{user}%%' or rater_username is null {'order by '+order_by if order_by else ''} limit 1;"
+        print(query)
         header, data = db_conn.read_db(query=query)
         if len(data) == 0:
             return {'status': 'success', 'message': 'No unrated videos left.', 'video': None}

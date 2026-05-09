@@ -1,0 +1,76 @@
+/* =============================================
+   LOGIN SECTION
+   ============================================= */
+#login-section {
+    width: 100%;
+    max-width: 520px;
+    margin: 2rem auto;
+    padding: 2rem 1.8rem;
+    background: rgba(8,5,12,0.65);
+    backdrop-filter: blur(12px);
+    border-radius: var(--radius-xl);
+    border: 1px solid rgba(255,255,255,0.08);
+    box-shadow: 0 25px 45px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05);
+}
+#login-section h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 600;
+    text-align: center;
+    margin: 0 0 1.8rem;
+    background: linear-gradient(135deg, var(--mustard), #f3c742);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+}
+#login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+#login-section label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: rgba(255,245,245,0.7);
+    margin-bottom: 0.5rem;
+}
+#login-section input {
+    width: 100%;
+    background: rgba(0,0,0,0.45);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: var(--radius-md);
+    padding: 12px 16px;
+    font-family: 'Montserrat', Arial, sans-serif;
+    font-size: .95rem;
+    color: #f0eef5;
+    transition: all .2s ease;
+}
+#login-section input:focus {
+    outline: none;
+    border-color: var(--purple);
+    box-shadow: 0 0 0 3px rgba(107,42,136,0.4);
+    background: rgba(10,7,15,0.7);
+}
+#login-section button[type="submit"] {
+    background: linear-gradient(105deg, var(--purple), #4a1a6b);
+    border: none;
+    border-radius: var(--radius-pill);
+    padding: 12px 20px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    color: #fff;
+    cursor: pointer;
+    transition: all .25s ease;
+    margin-top: .5rem;
+    width: 100%;
+    text-transform: uppercase;
+}
+#login-section button[type="submit"]:hover {
+    background: linear-gradient(105deg, #7f2fae, var(--purple));
+    transform: translateY(-2px);
+    box-shadow: 0 12px 22px rgba(107,42,136,0.3);
+}

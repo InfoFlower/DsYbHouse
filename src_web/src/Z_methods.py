@@ -27,6 +27,14 @@ class Cred_inator(Link_Users):
         self.add_link(passphrase, user)
         return passphrase
 
+def get_field(field_name):
+    field_mapping = {
+        'Oldest': 'publishedAt desc',
+        'Newest': 'publishedAt asc',
+        'Best rated': 'rating desc',
+        'Most viewed': 'viewCount desc'
+    }
+    return field_mapping.get(field_name, None)
 
 # A mettre dans le batch
 # from tqdm import tqdm
