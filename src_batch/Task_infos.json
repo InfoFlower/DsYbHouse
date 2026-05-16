@@ -1,0 +1,13 @@
+{
+  "tasks": {
+    "example_daily": {
+      "desc" : "Just an exemple",
+      "file" : "exemple_task",
+      "day_of_week" : 0,
+      "periodicity" : "day",
+      "start_time" : "19:02",
+      "reload" : "False",
+      "timeout" : 60
+    }
+  }
+}
