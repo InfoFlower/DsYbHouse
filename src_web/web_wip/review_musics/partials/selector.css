@@ -1,0 +1,57 @@
+/* =============================================
+   SELECTOR — "Where to begin"
+   ============================================= */
+#select-video-section {
+    width: 100%;
+    max-width: 520px;
+    margin: 2rem auto;
+    padding: 2rem 1.8rem;
+    background: rgba(8,5,12,0.65);
+    backdrop-filter: blur(12px);
+    border-radius: var(--radius-xl);
+    border: 1px solid rgba(255,255,255,0.08);
+    box-shadow: 0 25px 45px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05);
+}
+
+#select-video-section h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 600;
+    text-align: center;
+    margin: 0 0 1.8rem;
+    background: linear-gradient(135deg, var(--mustard), #f3c742);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+#select-rated-unrated {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+#rated-btn, #unrated-btn {
+    width: 100%;
+    padding: 12px 20px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    border-radius: var(--radius-pill);
+    cursor: pointer;
+    transition: all .25s ease;
+    border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(255,255,255,0.03);
+    color: #bdb8d0;
+}
+
+#rated-btn:hover, #unrated-btn:hover {
+    background: rgba(255,255,255,0.08);
+    transform: translateY(-1px);
+}
+
+#rated-btn:active, #unrated-btn:active {
+    transform: translateY(1px);
+}

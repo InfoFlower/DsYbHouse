@@ -10,10 +10,10 @@ else
 fi
 
 echo "Démarrage du service db..."
-docker compose up --build db -d
+docker compose up db -d
 
 echo "Démarrage du service web..."
-docker compose up --build web
+docker compose up web -d
 
 echo "Service web en cours :"
 docker compose ps web

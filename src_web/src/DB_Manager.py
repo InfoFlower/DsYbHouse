@@ -35,7 +35,6 @@ class db_manager:
         return value
 
     def _prepare_rows(self, data):
-        print(f"Preparing rows for data: {data[:5]}...") 
         if data is None:
             return []
         if isinstance(data, (list, tuple)) and len(data) > 0 and isinstance(data[0], (list, tuple)):
@@ -56,7 +55,6 @@ class db_manager:
         cols = ', '.join(f'"{h}"' for h in header_list)
         conn = sqlalchemy.create_engine(self.db_path).connect()
         for row in rows:
-            print(f'INSERT INTO {table_name} ({cols}) VALUES ({placeholders})', row)
             conn.exec_driver_sql(f'INSERT INTO {table_name} ({cols}) VALUES ({placeholders})', row)
         conn.exec_driver_sql("COMMIT;")
         conn.close()
@@ -71,7 +69,6 @@ class db_manager:
         conn.close()
 
     def write_db(self, header, data, table_name="music", delete_on = None, create=False, type_of_struct='row'):
-        print(f"Writing data to {table_name} with header {header} and delete_on {delete_on}...")
         if create : self.create_table(table_name=table_name)
         if delete_on:
             self.modifify_data(type='delete', table_name=table_name
@@ -103,7 +100,6 @@ class db_manager:
         return header, data
     
     def modifify_data(self, type, table_name, on, data, header, update_values=None, type_of_struct='row'):
-        print(f"Modifying data in {table_name} with type {type} on columns {on}...")
         if isinstance(on, str): on = [on]
         condition, condition_params = build_condition(header, data, on, type_of_struct)
         conn = sqlalchemy.create_engine(self.db_path).connect()

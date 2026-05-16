@@ -1,0 +1,91 @@
+/* ============================================
+   Conteneur principal - deux colonnes
+   ============================================ */
+main {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* ============================================
+   Bloc add-videos - Colonne 1
+   ============================================ */
+#add-videos {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+/* Formulaire */
+#retrieve-form {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+}
+
+#retrieve-form select,
+#retrieve-form input,
+#retrieve-form button {
+    padding: 10px 16px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-family: 'Montserrat', sans-serif;
+}
+
+#retrieve-form select,
+#retrieve-form input {
+    background: #f5f5f5;
+    color: #333;
+}
+
+#retrieve-form button {
+    background: #6b2a88;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+#retrieve-form button:hover {
+    background: #5a2370;
+}
+
+/* ============================================
+   Bloc manage-routines - Colonne 2
+   ============================================ */
+#manage-routines {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}   
+
+/* ============================================
+   Responsive
+   ============================================ */
+@media (max-width: 780px) {
+    main {
+        grid-template-columns: 1fr;
+    }
+    
+    #retrieve-form {
+        flex-direction: column;
+    }
+    
+    #retrieve-form select,
+    #retrieve-form input,
+    #retrieve-form button {
+        width: 100%;
+    }
+}

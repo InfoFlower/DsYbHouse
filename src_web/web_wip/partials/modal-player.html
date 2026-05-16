@@ -1,0 +1,12 @@
+<div id="player-modal" class="overlay" style="display:none;">
+    <div class="overlay-card player-card">
+        <button class="icon-btn close-player" 
+                style="align-self: flex-end;"
+                onclick="document.getElementById('player-modal').style.display = 'none';
+                         document.querySelector('#player-container iframe').src = '';"">✕</button>
+        <div id="player-container">
+            <iframe src="" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <h4 id="player-title"></h4>
+    </div>
+</div>

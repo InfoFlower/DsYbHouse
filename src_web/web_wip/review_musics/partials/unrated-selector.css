@@ -1,0 +1,81 @@
+/* =============================================
+   UNRATED SELECTOR OVERLAY
+   ============================================= */
+#unrated-selector {
+    width: 100%;
+    max-width: 520px;
+    margin: 0 auto;
+    padding: 1.8rem;
+    background: rgba(8,5,12,0.65);
+    backdrop-filter: blur(12px);
+    border-radius: var(--radius-xl);
+    border: 1px solid rgba(255,255,255,0.08);
+    box-shadow: 0 25px 45px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05);
+}
+
+#unrated-selector h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--mustard);
+    margin: 0 0 1rem;
+    text-align: center;
+}
+
+#unrated-videos-dropdown {
+    width: 100%;
+    background: rgba(0,0,0,0.55);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: var(--radius-md);
+    padding: 12px 16px;
+    font-family: 'Montserrat', Arial, sans-serif;
+    font-size: .95rem;
+    font-weight: 500;
+    color: #f0eef5;
+    cursor: pointer;
+    transition: all .2s ease;
+    appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23d1a21a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    background-size: 16px;
+}
+
+#unrated-videos-dropdown:hover {
+    border-color: rgba(209,162,26,0.6);
+}
+
+#unrated-videos-dropdown:focus {
+    outline: none;
+    border-color: var(--purple);
+    box-shadow: 0 0 0 3px rgba(107,42,136,0.4);
+}
+
+#unrated-videos-dropdown option {
+    background: #0c0a12;
+    color: #e8dfef;
+}
+
+#select-unrated-video-btn {
+    width: 100%;
+    margin-top: 1.25rem;
+    background: linear-gradient(105deg, #2c2a35, #1f1c28);
+    border: 1px solid rgba(209,162,26,0.4);
+    border-radius: var(--radius-pill);
+    padding: 12px 20px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: .95rem;
+    text-transform: uppercase;
+    color: var(--mustard);
+    cursor: pointer;
+    transition: all .25s ease;
+}
+
+#select-unrated-video-btn:hover {
+    background: linear-gradient(105deg, #3f3a4a, #2e2a38);
+    border-color: var(--mustard);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(209,162,26,0.2);
+    color: #ffdf8c;
+}

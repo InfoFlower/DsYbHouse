@@ -1,0 +1,325 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@400;700&display=swap');
+
+:root{
+    --bg-black: #070507;
+    --purple: #6b2a88;
+    --mustard: #d1a21a;
+    --glass-opa: 0.12;
+    --accent: #b286ff;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+body {
+    background: radial-gradient(1200px 600px at 10% 10%, rgba(107,42,136,0.14), transparent 10%),
+                radial-gradient(900px 400px at 90% 90%, rgba(209,162,26,0.06), transparent 10%),
+                var(--bg-black);
+    color: #efecec;
+    font-family: 'Montserrat', Arial, sans-serif;
+    margin: 0;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden;
+    min-height: 100vh;
+}
+
+header {
+    text-align: center;
+    margin: 0 0 0 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    /* gap: 18px; */
+    justify-content: space-between;
+    position: relative; /* allow absolute centering of h1 inside header */
+    min-height: 84px;
+}
+
+.logo-container {
+    display: flex;
+    align-items: left;
+    /* gap: 12px; */
+}
+
+.logo {
+    width: 68px;
+    height: 68px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(107,42,136,0.18), rgba(209,162,26,0.12));
+    /* padding: 8px; */
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+h1 {
+    font-size: 2.4rem;
+    margin: 0;
+    font-family: 'Playfair Display', 'Times New Roman', serif;
+    color: var(--purple);
+    text-shadow: 0 2px 18px rgba(107,42,136,0.12);
+}
+
+header h1 {
+    /* center the H1 absolutely within the header */
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+}
+
+p {
+    font-size: 1rem;
+    color: #d9d2d2;
+}
+
+main {
+    display: flex;
+    /* gap: 20px; */
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.btn {
+    background: linear-gradient(90deg, rgba(107,42,136,0.16), rgba(209,162,26,0.06));
+    color: #fff;
+    padding: 12px 26px;
+    text-decoration: none;
+    border-radius: 999px;
+    font-size: 1rem;
+    transition: all 0.22s ease;
+    backdrop-filter: blur(8px) saturate(120%);
+    border: 1px solid rgba(255,255,255,0.06);
+    box-shadow: 0 6px 18px rgba(107,42,136,0.12);
+}
+
+.btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(107,42,136,0.18);
+}
+
+/* Glass panels */
+.panel {
+    background: rgba(255,255,255,var(--glass-opa));
+    border-radius: 14px;
+    padding: 18px;
+    backdrop-filter: blur(8px) saturate(140%);
+    border: 1px solid rgba(255,255,255,0.06);
+}
+
+
+/* ---------- nav ---------- */
+
+.top-menu {
+    margin-bottom: 30px;
+    background: rgba(255,255,255,0.03);
+    padding: 10px 16px;
+    border-radius: 10px;
+    width: 100%;
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(255,255,255,0.04);
+}
+.top-menu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    justify-content: center;
+}
+.top-menu a {
+    color: #e8dfef;
+    text-decoration: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    transition: background 0.18s, color 0.18s, transform 0.12s;
+    font-weight: 600;
+}
+.top-menu a:hover,
+.top-menu a.active {
+    background: rgba(107,42,136,0.12);
+    color: var(--mustard);
+    transform: translateY(-1px);
+}
+
+/* =============================================
+   OVERLAY BACKDROP
+   Couvre toute la fenêtre, bloque l'interaction
+   avec le contenu derrière
+   ============================================= */
+.login-overlay {
+    /* Positionnement — couvre toute la fenêtre */
+    position: fixed;      /* relatif à la fenêtre, pas au document */
+    inset: 0;             /* top:0; right:0; bottom:0; left:0 */
+    z-index: var(--z-overlay, 100); /* passe au-dessus de tout */
+
+    /* Centrage du contenu */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    /* Fond semi-transparent qui assombrit la page derrière */
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(4px); /* floute légèrement la page derrière */
+
+    /* Animation d'apparition */
+    opacity: 1;
+    transition: opacity .25s ease;
+}
+
+/* État masqué — géré par JS via overlay.style.display = 'none'
+   ou mieux, via une classe pour pouvoir animer */
+.login-overlay.hidden {
+    opacity: 0;
+    pointer-events: none; /* désactive les clics sans retirer du DOM */
+}
+
+/* =============================================
+   LA BOÎTE DE LOGIN
+   Élément centré dans l'overlay
+   ============================================= */
+.login-overlay__box {
+    /* Dimensions */
+    width: 100%;
+    max-width: 520px;
+
+    /* Espacement interne */
+    padding: 2rem 1.8rem;
+
+    /* Visuel verre dépoli */
+    background: rgba(8, 5, 12, 0.85);
+    backdrop-filter: blur(12px) saturate(140%);
+    border-radius: var(--radius-xl, 16px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow:
+        0 25px 45px rgba(0, 0, 0, 0.5),          /* ombre externe */
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);  /* reflet supérieur */
+
+    /* Légère animation d'entrée */
+    transform: translateY(0);
+    transition: transform .3s ease;
+}
+
+/* =============================================
+   TITRE
+   ============================================= */
+.login-overlay__title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 600;
+    text-align: center;
+    margin: 0 0 1.8rem;
+
+    /* Texte avec dégradé — nécessite les 3 lignes ensemble */
+    background: linear-gradient(135deg, var(--mustard), #f3c742);
+    background-clip: text;
+    -webkit-background-clip: text; /* préfixe Safari */
+    color: transparent;
+}
+
+/* =============================================
+   FORMULAIRE
+   ============================================= */
+.login-overlay__form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem; /* espace entre chaque enfant direct */
+}
+
+.login-overlay__label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: rgba(255, 245, 245, 0.7);
+    margin-bottom: 0.5rem;
+}
+
+.login-overlay__input {
+    width: 80%;
+    background: rgba(0, 0, 0, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-md, 8px);
+    padding: 12px 16px;
+    font-family: 'Montserrat', Arial, sans-serif;
+    font-size: 0.95rem;
+    color: #f0eef5;
+
+    /* 'all' surveille tout mais préférer les propriétés explicites */
+    transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
+}
+
+.login-overlay__input:focus {
+    outline: none; /* remplacé par box-shadow, plus beau */
+    border-color: var(--purple);
+    box-shadow: 0 0 0 3px rgba(107, 42, 136, 0.4); /* focus ring custom */
+    background: rgba(10, 7, 15, 0.7);
+}
+
+/* =============================================
+   BOUTON SUBMIT
+   ============================================= */
+.login-overlay__submit {
+    width: 100%;
+    margin-top: 0.5rem;
+    padding: 12px 20px;
+
+    background: linear-gradient(105deg, var(--purple), #4a1a6b);
+    border: none;
+    border-radius: var(--radius-pill, 999px);
+
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    color: #fff;
+    text-transform: uppercase;
+
+    cursor: pointer;
+    transition: background .25s ease, transform .25s ease, box-shadow .25s ease;
+}
+
+.login-overlay__submit:hover {
+    background: linear-gradient(105deg, #7f2fae, var(--purple));
+    transform: translateY(-2px);
+    box-shadow: 0 12px 22px rgba(107, 42, 136, 0.3);
+}
+
+.login-overlay__submit:active {
+    transform: translateY(0); /* feedback clic */
+}
+
+/* =============================================
+   MESSAGE D'ERREUR
+   ============================================= */
+.login-overlay__error {
+    color: #ff6b6b;
+    font-size: 0.85rem;
+    text-align: center;
+    min-height: 1.2em; /* évite le layout shift quand le message apparaît */
+}
+
+/* =============================================
+   RESPONSIVE — réduit les marges sur mobile
+   ============================================= */
+@media (max-width: 560px) {
+    .login-overlay__box {
+        margin: 0 1rem;
+        padding: 1.5rem 1.2rem;
+    }
+    .login-overlay__title {
+        font-size: 1.6rem;
+    }
+}

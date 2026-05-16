@@ -1,0 +1,239 @@
+/* =============================================
+   SWIPPER — MOBILE/TABLETTE (superposé)
+   ============================================= */
+
+#swipper {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    gap: 0;
+    padding: 1.5rem;
+    width: 100%;
+    min-height: calc(100vh - 200px);
+    background: rgba(8,5,12,0.65);
+    backdrop-filter: blur(12px) saturate(120%);
+    border-radius: var(--radius-xl);
+    border: 1px solid rgba(255,255,255,0.08);
+    box-shadow: 0 25px 45px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05);
+}
+
+/* Title row */
+#swipper > h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-weight: 600;
+    text-align: center;
+    margin: 0 0 1rem 0;
+    background: linear-gradient(135deg, var(--mustard), #f3c742);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+/* Video container — hauteur fixe, pas de flex */
+#swipper-container {
+    width: 100%;
+    height: calc(100vh - 400px);
+    min-height: 250px;
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+/* The generated card inside #swipper-container */
+.swippe-card {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.swippe-card iframe {
+    width: 100%;
+    height: 100%;
+    border-radius: var(--radius-lg);
+    border: none;
+    box-shadow: 0 12px 28px rgba(0,0,0,0.55);
+}
+
+#music-title {
+    display: none;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 600;
+    text-align: center;
+    margin: 0;
+    padding: 0 1rem;
+    background: linear-gradient(135deg, var(--mustard), #f3c742);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    word-break: break-word;
+}
+
+/* Tiles area */
+#active-tiles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .4rem;
+    justify-content: center;
+    min-height: 28px;
+    padding: 0 0.5rem;
+}
+
+.tile {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: .75rem;
+    font-weight: 600;
+    color: #c4bcda;
+    cursor: pointer;
+    transition: all .2s ease;
+    user-select: none;
+}
+
+.tile:hover {
+    background: rgba(107,42,136,0.18);
+    border-color: rgba(178,134,255,0.4);
+    color: #e8dfef;
+}
+
+.tile.selected {
+    background: rgba(107,42,136,0.35);
+    border-color: var(--accent);
+    color: #fff;
+    box-shadow: 0 0 10px rgba(178,134,255,0.25);
+}
+
+/* Rating section — superposée au bas */
+#rating-section {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    gap: .6rem;
+    width: 100%;
+    padding: 1.2rem;
+    background: linear-gradient(to top, rgba(8,5,12,0.98) 0%, rgba(8,5,12,0.85) 100%);
+    backdrop-filter: blur(12px);
+    border-top: 1px solid rgba(255,255,255,0.1);
+    z-index: 10;
+}
+
+/* Open tile selector button */
+#type-card {
+    display: flex;
+    justify-content: center;
+}
+
+#open-tile-selector {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: var(--radius-pill);
+    padding: 8px 18px;
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    font-family: 'Montserrat', sans-serif;
+    font-size: .8rem;
+    font-weight: 600;
+    color: #c4bcda;
+    cursor: pointer;
+    transition: all .2s;
+}
+
+#open-tile-selector:hover {
+    background: rgba(107,42,136,0.18);
+    border-color: var(--accent);
+    color: #fff;
+}
+
+/* =============================================
+   SLIDER
+   ============================================= */
+#monSlider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 8px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 20px;
+    outline: none;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+#monSlider::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 8px;
+    background: linear-gradient(to right, var(--purple), var(--mustard));
+    border-radius: 20px;
+}
+
+#monSlider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    margin-top: -6px;
+    background: radial-gradient(circle, #fff, #d1a21a);
+    border: 2px solid var(--mustard);
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 0 14px rgba(209,162,26,0.6);
+    transition: transform .15s, box-shadow .15s;
+}
+
+#monSlider::-webkit-slider-thumb:hover {
+    transform: scale(1.15);
+    box-shadow: 0 0 20px rgba(209,162,26,0.9);
+}
+
+#monSlider::-moz-range-track {
+    height: 8px;
+    background: linear-gradient(to right, var(--purple), var(--mustard));
+    border-radius: 20px;
+}
+
+#monSlider::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    background: radial-gradient(circle, #fff, #d1a21a);
+    border: 2px solid var(--mustard);
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+/* =============================================
+   SUBMIT RATING BUTTON
+   ============================================= */
+#submit-rating-btn {
+    width: 100%;
+    background: linear-gradient(105deg, var(--purple), #4a1a6b);
+    border: none;
+    border-radius: var(--radius-pill);
+    padding: 11px 16px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: .9rem;
+    text-transform: uppercase;
+    color: #fff;
+    cursor: pointer;
+    transition: all .25s ease;
+    box-shadow: 0 6px 14px rgba(0,0,0,0.3);
+}
+
+#submit-rating-btn:hover {
+    background: linear-gradient(105deg, #7f2fae, var(--purple));
+    transform: translateY(-2px);
+    box-shadow: 0 12px 22px rgba(107,42,136,0.35);
+}
+
+#submit-rating-btn:active {
+    transform: translateY(1px);
+}

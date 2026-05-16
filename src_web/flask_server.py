@@ -16,7 +16,7 @@ DB_USER = os.getenv('DB_USER')
 DB_PASS = os.getenv('DB_PASS')
 DB_NAME = os.getenv('DB_NAME')
 # Absolute path to base directory and public directory
-BASE_DIR = WD + 'web/'
+BASE_DIR = 'web_wip/'
 BDD_URL = f"postgresql://{DB_USER}:{DB_PASS}@db:5432/{DB_NAME}"
 
 db_conn = db_manager(BDD_URL)
@@ -26,7 +26,11 @@ link_users = Cred_inator()
 def index():
     return redirect(url_for('send_static', path='index/page.html'))
 
-    
+@app.route('/partials/<path:filename>')
+def send_partial(filename):
+    return send_from_directory(BASE_DIR + 'partials/', filename)
+
+
 @app.route('/web/<path:path>')
 def send_static(path):
     logging.debug('requested path: ' + path)
@@ -35,16 +39,17 @@ def send_static(path):
     else :
         return send_from_directory(BASE_DIR, 'index/'+path)
 
-@app.route('/api/get_videos/<search>/<type>/<need_db>')
-def receive_json(search, type, need_db):
+@app.route('/api/get_videos/<search>')
+def receive_json(search):
+    if search[0:2]=='PL': 
+        type = 'PLAYLIST'
+        delete_field = 'playlistId'
+    else : 
+        type = 'USER'
+        delete_field = 'videoOwnerChannelId'
     data = request_videos_from_X(search, type)
     header, videos = data.get_header_and_data()
-    if type =='PLAYLIST': 
-        delete_field = 'playlistId'
-    elif type == 'USER': 
-        delete_field = 'videoOwnerChannelId'
-    if need_db == 'true': 
-        db_conn.write_db(header, videos, table_name='music', delete_on=[delete_field])
+    db_conn.write_db(header, videos, table_name='music', delete_on=[delete_field])
     return {'status': 'success', 'videos': videos, 'header': header, 'count': len(videos)}
 
 @app.route('/api/see_database/')
@@ -84,7 +89,7 @@ def get_rated_video(passphrase):
     if user is None:
         return {'status': 'error', 'message': 'Invalid passphrase.'}
     else:
-        query = f"select etag, music_id, music_title, music_url, "+'"user_rating"'+f", user_Category, rating, publishedAt as rating_date from unrated_music WHERE rater_username like '%%{user}%%';"
+        query = f"select etag, music_id, music_title, music_url, "+'"user_rating"'+f", user_Category, rating, publishedAt as rating_date from rated_music WHERE rater_username like '%%{user}%%';"
         print(query)
         header, data = db_conn.read_db(query=query)
         if len(data) == 0:
@@ -160,4 +165,5 @@ def check_passphrase():
         return {'status': 'success', 'message': 'Valid passphrase.'}
 
 if __name__ == '__main__':
+    context = ('ssl_context/cert.pem', 'ssl_context/key.pem')
     app.run(host='0.0.0.0',debug=True, port=5000)

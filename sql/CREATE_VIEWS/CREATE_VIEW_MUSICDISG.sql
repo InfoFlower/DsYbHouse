@@ -20,7 +20,8 @@ SELECT distinct
         dm.genres,
         dm.styles,
         r.count,
-        r.average
+        r.average,
+        'https://www.youtube.com/watch?v='||"videoId" as video_id
         --t.title AS track_title,
         --t.position,
         --t.type_ AS track_type,

@@ -1,0 +1,25 @@
+<div id="rated-selector" style="display:none;">
+    <h3>Rated songs</h3>
+    <div class="filter-bar">
+        <select id="rated-rating-filter">
+            <option value="">All Ratings</option>
+            <option value="5">5 ★</option>
+            <option value="4">4 ★</option>
+            <option value="3">3 ★</option>
+            <option value="2">2 ★</option>
+            <option value="1">1 ★</option>
+        </select>
+        <select id="rated-category-filter">
+            <option value="">All Categories</option>
+            <!-- rempli dynamiquement -->
+        </select>
+        <button id="apply-rated-filters-btn" class="primary-btn">Apply</button>
+    </div>
+    <div class="group-actions" style="display:none;" id="group-actions-bar">
+            <button id="group-edit-btn" class="ghost-btn">Edit Selected</button>
+            <button id="group-delete-btn" class="ghost-btn">Delete Selected</button>
+    </div>
+    </div>
+    <div id="rated-songs-grid" class="songs-grid">
+    </div>
+</div>

@@ -15,6 +15,7 @@ class Mid_level_API(BaseAPI):
             'forHandle': username
         }
         result = self._request('channels', params)
+        print(result)
         return result['items'][0]['id'] if result else result
     
     def get_playlist_id(self, channel_id):
@@ -58,8 +59,9 @@ class Mid_level_API(BaseAPI):
         return data_normalizer, page_count
 
     def get_user_uploads(self, username):
-        channel_id = self.get_channel_id(username)
-        logging.info(f"Récupération de l'ID de la chaîne pour le nom d'utilisateur '{username}' : {channel_id}")
+        if not username.startswith("UC"): channel_id = self.get_channel_id(username)
+        else : channel_id = username
+        print(f"Récupération de l'ID de la chaîne pour le nom d'utilisateur '{username}' : {channel_id}")
         uploads_playlist_id = self.get_uploads_playlist_id(channel_id)
         return uploads_playlist_id
 

@@ -8,7 +8,8 @@ class Link_Users:
         self.USER_LINKS[passphrase] = user
     
     def get_user(self, passphrase):
-        return self.USER_LINKS[passphrase]
+        if passphrase in self.USER_LINKS.keys(): return self.USER_LINKS[passphrase]
+        else : return None
     
     def get_passphrase(self, user):
         for passphrase, linked_user in self.USER_LINKS.items():
